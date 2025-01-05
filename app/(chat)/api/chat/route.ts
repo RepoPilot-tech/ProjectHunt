@@ -1,13 +1,12 @@
 import { convertToCoreMessages, Message, streamText } from "ai";
 import { z } from "zod";
+
 import { geminiProModel } from "@/ai";
 import {
   generateReservationPrice,
   generateSampleFlightSearchResults,
   generateSampleFlightStatus,
   generateSampleSeatSelection,
-  generateProjects,
-  refineQuery
 } from "@/ai/actions";
 import { auth } from "@/app/(auth)/auth";
 import {
@@ -36,53 +35,40 @@ export async function POST(request: Request) {
   const result = await streamText({
     model: geminiProModel,
     system: `\n
-        - you help users find Projects
+        - you help users find Projects!
         - keep your responses limited to a sentence.
         - DO NOT output lists.
         - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
         - today's date is ${new Date().toLocaleDateString()}.
         - ask follow up questions to nudge user into the optimal flow
-        - ask for any details you don't know, like if user project requirement is not clear tell him/her to tell the requirement more discretly'
+        - ask for any details you feel confused or not clear or you dont know.'
+        - assume the most popular projects in that category
         - here's the optimal flow
-          - Project Require
-          - select project
-          - in the end show concern saying i hope you complete your project this time. i am here to help you
+          - search for flights
+          - choose flight
+          - select seats
+          - create reservation (ask user whether to proceed with payment or change reservation)
+          - authorize payment (requires user consent, wait for user to finish payment and let you know when done)
+          - display boarding pass (DO NOT display boarding pass without verifying payment)
         '
       `,
     messages: coreMessages,
     tools: {
-      findProjects: {
-        description: "Get Project based on user requirement",
+      getWeather: {
+        description: "Get the current weather at a location",
         parameters: z.object({
-          toolName: z.string().describe("Tool Name"),
-          builtBy: z.string().describe("Tool Build by"),
-          description: z.string().describe("Tool Description"),
-          website: z.string().describe("Tool Website Link"),
-          tags: z.string().describe("Tags based on tools")
+          latitude: z.number().describe("Latitude coordinate"),
+          longitude: z.number().describe("Longitude coordinate"),
         }),
-        execute: async ({ refinedquery }) => {
-          const response = await generateProjects({
-            refinedquery
-          });
-          console.log("i reached here findProjects")
-          return response
+        execute: async ({ latitude, longitude }) => {
+          const response = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`,
+          );
+
+          const weatherData = await response.json();
+          return weatherData;
         },
       },
-
-      refineQuery: {
-        description: "refine the users query",
-        parameters: z.object({
-          query: z.string().describe("user query")
-        }),
-        execute: async ({queri}) => {
-          const refinedQuery = await refineQuery({
-            queri,
-          });
-          console.log("i reached here refineQuery")
-          return refinedQuery;
-        }
-      },
-
       displayFlightStatus: {
         description: "Display the status of a flight",
         parameters: z.object({

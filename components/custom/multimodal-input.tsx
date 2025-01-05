@@ -14,7 +14,6 @@ import React, {
 import { toast } from "sonner";
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
-import { PreviewAttachment } from "./preview-attachment";
 import useWindowSize from "./use-window-size";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -87,7 +86,6 @@ export function MultimodalInput({
 
   const submitForm = useCallback(() => {
     handleSubmit(undefined);
-
 
     if (width && width > 768) {
       textareaRef.current?.focus();

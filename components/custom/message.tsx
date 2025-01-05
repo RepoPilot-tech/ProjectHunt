@@ -21,11 +21,13 @@ export const Message = ({
   role,
   content,
   toolInvocations,
+  attachments,
 }: {
   chatId: string;
   role: string;
   content: string | ReactNode;
   toolInvocations: Array<ToolInvocation> | undefined;
+  attachments?: Array<Attachment>;
 }) => {
   return (
     <motion.div
@@ -54,9 +56,9 @@ export const Message = ({
 
                 return (
                   <div key={toolCallId}>
-                    {toolName === "refineQuery" ? (
+                    {toolName === "getWeather" ? (
                       <Weather weatherAtLocation={result} />
-                    ) : toolName === "findProjects" ? (
+                    ) : toolName === "displayFlightStatus" ? (
                       <FlightStatus flightStatus={result} />
                     ) : toolName === "searchFlights" ? (
                       <ListFlights chatId={chatId} results={result} />
@@ -102,6 +104,13 @@ export const Message = ({
           </div>
         )}
 
+        {attachments && (
+          <div className="flex flex-row gap-2">
+            {attachments.map((attachment) => (
+              <PreviewAttachment key={attachment.url} attachment={attachment} />
+            ))}
+          </div>
+        )}
       </div>
     </motion.div>
   );
