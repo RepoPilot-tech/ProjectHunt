@@ -7,6 +7,7 @@ import {
   generateSampleFlightSearchResults,
   generateSampleFlightStatus,
   generateSampleSeatSelection,
+  generateRefineQuery
 } from "@/ai/actions";
 import { auth } from "@/app/(auth)/auth";
 import {
@@ -34,26 +35,26 @@ export async function POST(request: Request) {
 
   const result = await streamText({
     model: geminiProModel,
-    system: `\n
-        - you help users find Projects!
-        - keep your responses limited to a sentence.
-        - DO NOT output lists.
-        - after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase.
-        - today's date is ${new Date().toLocaleDateString()}.
-        - ask follow up questions to nudge user into the optimal flow
-        - ask for any details you feel confused or not clear or you dont know.'
-        - assume the most popular projects in that category
-        - here's the optimal flow
-          - search for flights
-          - choose flight
-          - select seats
-          - create reservation (ask user whether to proceed with payment or change reservation)
-          - authorize payment (requires user consent, wait for user to finish payment and let you know when done)
-          - display boarding pass (DO NOT display boarding pass without verifying payment)
-        '
-      `,
+    system: `
+    - You help users find Projects!
+    - Keep your responses limited to a sentence.
+    - After every tool call, show the result to the user in a short phrase.
+    - Today's date is ${new Date().toLocaleDateString()}.
+  `,
     messages: coreMessages,
     tools: {
+      refineQuery: {
+        description: "Refine the query and find projects",
+        parameters: z.object({
+          query: z.string().describe("users query")
+        }),
+        execute: async ({query}) => {
+          const { refinedQuery, projects } = await generateRefineQuery({ query });
+          // Return both refined query and projects
+          console.log("i am here")
+          return { refinedQuery, projects };
+        }
+      },
       getWeather: {
         description: "Get the current weather at a location",
         parameters: z.object({

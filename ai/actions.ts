@@ -132,3 +132,38 @@ export async function generateReservationPrice(props: {
 
   return reservation;
 }
+
+export async function generateRefineQuery({ query }: { query: string }) {
+  const { object: refinedQuery } = await generateObject({
+    model: geminiFlashModel,
+    prompt: `here is the user query:- ${query}. analyze and understand the query and find 5 projects based on user requirement which will help the user in his/her project.`,
+    schema: z.object({
+      refinedQuery: z.string(),
+    }),
+  });
+
+  console.log("Refined Query: ", refinedQuery);
+
+  const projects = await fetchProjectsBasedOnQuery(refinedQuery);
+
+  return { refinedQuery, projects };
+}
+
+export async function fetchProjectsBasedOnQuery(refinedQuery: any) {
+  const { object: projectResults } = await generateObject({
+    model: geminiFlashModel,
+    prompt: `Here is the refined query: "${refinedQuery}". Find real-world, publicly known ReactJS component libraries that allow users to copy and paste the code into their project. Provide a list of actual libraries or tools and describe what they do. The response should include names of real projects or libraries, not fake or placeholder names.`,
+    schema: z.object({
+      projects: z.array(
+        z.object({
+          name: z.string(),
+          description: z.string(),
+        })
+      ),
+    }),
+  });
+
+  console.log("Fetched Projects: ", projectResults);
+
+  return projectResults.projects;
+}
