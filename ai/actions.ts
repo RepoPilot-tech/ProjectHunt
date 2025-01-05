@@ -125,10 +125,45 @@ export async function generateReservationPrice(props: {
     prompt: `Generate price for the following reservation \n\n ${JSON.stringify(props, null, 2)}`,
     schema: z.object({
       totalPriceInUSD: z
-        .number()
-        .describe("Total reservation price in US dollars"),
+      .number()
+      .describe("Total reservation price in US dollars"),
     }),
   });
+  // console.log("hi there", JSON.stringify(props, null, 2))
 
   return reservation;
+}
+
+export async function refineQuery({queri}: {queri: string}){
+  const {object: query} = await generateObject({
+    model: geminiFlashModel,
+    prompt: "refine the query given by user into a perfect format so and ai can understand and suggest projects/tools to help the user",
+    schema: z.object({
+      refineQuery: z.string()
+    })
+  })
+  console.log("i am inside refine Query");
+  return query
+}
+
+export async function generateProjects({refinedquery}: {
+  refinedquery: string
+}){
+  const { object: projects } = await generateObject({
+  model: geminiFlashModel,
+  prompt: `Find exact Projects which user is looking for based on user query:- ${refinedquery} || and genereate at least 5 projects`,
+  schema: z.object({
+      projects: z.object({
+          name: z.string(),
+          buildBy: z.string(),
+          description: z.string(),
+          website: z.string(),
+          tags: z.array(z.string())
+      }),
+  }),
+});
+console.log("i am inside generateProjects");
+console.log(JSON.stringify(refinedquery, null, 5));
+
+return projects
 }
