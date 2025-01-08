@@ -14,6 +14,7 @@ import { CreateReservation } from "../flights/create-reservation";
 import { FlightStatus } from "../flights/flight-status";
 import { ListFlights } from "../flights/list-flights";
 import { SelectSeats } from "../flights/select-seats";
+import ToolRecommendations from "../flights/ToolRecommendations";
 import { VerifyPayment } from "../flights/verify-payment";
 
 export const Message = ({
@@ -47,7 +48,7 @@ export const Message = ({
         )}
 
         {toolInvocations && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 h-fit">
             {toolInvocations.map((toolInvocation) => {
               const { toolName, toolCallId, state } = toolInvocation;
 
@@ -56,8 +57,8 @@ export const Message = ({
 
                 return (
                   <div key={toolCallId}>
-                    {toolName === "getWeather" ? (
-                      <Weather weatherAtLocation={result} />
+                    {toolName === "combinedQueryTool" ? (
+                      <ToolRecommendations recommendations={result} />
                     ) : toolName === "displayFlightStatus" ? (
                       <FlightStatus flightStatus={result} />
                     ) : toolName === "searchFlights" ? (

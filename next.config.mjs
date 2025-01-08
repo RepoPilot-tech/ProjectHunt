@@ -2,7 +2,9 @@
 const nextConfig = {
   experimental: {},
   images: {
-    remotePatterns: [],
+    domains: [
+      "api.microlink.io", "ui.aceternity.com", "t4.ftcdn.net", "particle.scitech.org.au"
+    ],
   },
 };
 

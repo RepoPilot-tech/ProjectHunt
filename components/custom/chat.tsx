@@ -27,6 +27,8 @@ export function Chat({
         window.history.replaceState({}, "", `/chat/${id}`);
       },
     });
+    // alert("check console")
+    console.log(messages);
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
