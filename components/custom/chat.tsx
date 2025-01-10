@@ -36,7 +36,7 @@ export function Chat({
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
+    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh">
       <div className="flex flex-col justify-between items-center gap-4">
         <div
           ref={messagesContainerRef}
@@ -60,7 +60,6 @@ export function Chat({
             className="shrink-0 min-w-[24px] min-h-[24px]"
           />
         </div>
-
         <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
           <MultimodalInput
             input={input}

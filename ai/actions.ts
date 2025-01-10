@@ -178,6 +178,7 @@ export async function generateRecommendations({ prompt }: any) {
           name: z.string().describe("Tool/Project Name"),
           websiteLink: z.string().describe("Website Link"),
           creatorName: z.string().describe("Creator/Builder Name"),
+          description: z.string().describe("Description of tool")
         })
       ).length(5),
     }),

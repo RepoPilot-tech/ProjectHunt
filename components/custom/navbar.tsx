@@ -33,7 +33,7 @@ export const Navbar = async () => {
               <SlashIcon size={16} />
             </div>
             <div className="text-sm dark:text-zinc-300 truncate w-28 md:w-fit">
-              Next.js Gemini Chatbot
+              ProjectoPedia
             </div>
           </div>
         </div>

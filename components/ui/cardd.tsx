@@ -4,30 +4,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ArrowRight } from 'lucide-react'
 
-export function Cardd() {
+export function Cardd({name, creatorName, websiteLink, description}) {
   return (
-    <Card className="w-fit overflow-hidden">
-      <CardHeader className="relative bg-white p-6 text-white">
-        <div className="h-[20vw]">
+      <div className="flex gap-4 h-[15vw] rounded-lg bg-red-200">
+        {/* <div className="h-[20vw]">
           <Image src={blogContent.image} fill alt="image" />
+        </div> */}
         </div>
-        <ArrowRight className="absolute left-4 top-4 h-6 w-6" />
-      </CardHeader>
-      <CardContent className="space-y-4 p-4 bg-white">
-        <h3 className="text-xl font-semibold text-gray-800">
-          Amazing Tailwindcss Grid Layout Examples
-        </h3>
-        <p className="text-gray-600">
-          Grids are cool, but Tailwindcss grids are cooler. In this article, we will learn how to create amazing Grid layouts with Tailwindcss grid and React.
-        </p>
-      <CardFooter className="flex items-center bg-white justify-between">
-        <time className="text-sm text-gray-500">28th March, 2023</time>
-        <Button variant="default" className="rounded-full px-6">
-          Read More
-        </Button>
-      </CardFooter>
-      </CardContent>
-    </Card>
   );
 }
 

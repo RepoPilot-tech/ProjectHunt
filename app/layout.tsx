@@ -8,7 +8,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gemini.vercel.ai"),
-  title: "Next.js Gemini Chatbot",
+  title: "ProjectoPedia",
   description: "Next.js chatbot template using the AI SDK and Gemini.",
 };
 
@@ -27,7 +27,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </ThemeProvider>
       </body>

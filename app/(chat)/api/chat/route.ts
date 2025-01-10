@@ -3,19 +3,12 @@ import { z } from "zod";
 
 import { geminiProModel } from "@/ai";
 import {
-  // generateReservationPrice,
-  // generateSampleFlightSearchResults,
-  // generateSampleFlightStatus,
-  // generateSampleSeatSelection,
-  // generateRefineQuery,
   generateRecommendations
 } from "@/ai/actions";
 import { auth } from "@/app/(auth)/auth";
 import {
-  createReservation,
   deleteChatById,
   getChatById,
-  getReservationById,
   saveChat,
 } from "@/db/queries";
 import { generateUUID } from "@/lib/utils";
@@ -45,6 +38,7 @@ Provide detailed information about each tool or project in the following format:
 Tool/Project Name
 Website Link
 Creator/Builder Name
+Brief small description about the tool under 25 words
 Always present exactly five recommendations that are relevant to the user’s query, prioritizing quality and effectiveness. If needed, access the latest and most reliable resources on the internet to gather this information.
 - Today's date is ${new Date().toLocaleDateString()}.
 - keep your responses limited to a sentence.
