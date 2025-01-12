@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^0.0.51",
+    "@neondatabase/serverless": "^0.10.4",
     "@radix-ui/react-alert-dialog": "^1.1.2",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.2",

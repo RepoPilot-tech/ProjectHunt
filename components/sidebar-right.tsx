@@ -42,11 +42,13 @@ const data = {
   ],
 }
 
-export function SidebarRight({user}: {user: User | undefined}) {
+export function SidebarRight({
+  user
+}: {user: User | undefined}) {
   return (
     <Sidebar
       collapsible="none"
-      className="sticky hidden lg:flex top-0 h-svh border-l"
+      className="sticky hidden lg:flex top-0 h-svh border-l overflow-y-scroll !w-[21rem]"
     >
       <SidebarHeader className="h-16 border-b border-sidebar-border">
         <NavUser user={user} />
@@ -55,7 +57,7 @@ export function SidebarRight({user}: {user: User | undefined}) {
       <SidebarContent>
         <ProjectShowCase />
         <SidebarGroupLabel>Spaces</SidebarGroupLabel>
-        <SidebarSeparator className="mx-0" />
+        {/* <SidebarSeparator className="mx-0" /> */}
         <Spaces spaces={data.spaces} />
       </SidebarContent>
 

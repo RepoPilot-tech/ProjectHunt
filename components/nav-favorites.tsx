@@ -114,7 +114,7 @@ export function NavFavorites({
         {history && history.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
-              <a href={`/chat/${item.id}`} target="_black">
+              <a href={`/chat/${item.id}`}>
                 {/* <span>{item.emoji}</span> */}
                 <span>{getTitleFromChat(item)}</span>
               </a>

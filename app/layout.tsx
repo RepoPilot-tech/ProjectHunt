@@ -5,6 +5,10 @@ import { Navbar } from "@/components/custom/navbar";
 import { ThemeProvider } from "@/components/custom/theme-provider";
 
 import "./globals.css";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarLeft } from "@/components/sidebar-left";
+import { SidebarRight } from "@/components/sidebar-right";
+import { auth } from "./(auth)/auth";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gemini.vercel.ai"),
@@ -17,6 +21,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let session = await auth();
   return (
     <html lang="en">
       <body className="antialiased">
@@ -27,7 +32,6 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          {/* <Navbar /> */}
           {children}
         </ThemeProvider>
       </body>
