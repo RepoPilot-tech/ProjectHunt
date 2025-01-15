@@ -1,45 +1,85 @@
+"use client"
 // import { FollowerPointerCard } from "@/components/ui/following-pointer";
 import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, CornerDownRight } from 'lucide-react'
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import image from '@/public/images/image.png';
+import { Badge } from "./badge";
+import Checkbox from "./checkbox";
+import Link from "next/link";
 
-export function Cardd({name, creatorName, websiteLink, description}) {
+const Cardd = ({name, creatorName, websiteLink, description}) => {
+  const [save, setSave] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(image);
+  const [isChecked, setIsChecked] = useState(false);
+
+  useEffect(() => {
+    async function fetchMicrolinkImage(websiteLink) {
+      try {
+        const { data } = await axios.get(`https://api.microlink.io?url=${websiteLink}`);
+        setImageUrl(data.data.image.url || image);
+        console.log("data now", data.data.image.url)
+      } catch (error) {
+        console.error('Error fetching image:', error);
+        setImageUrl(image);
+      }
+    }
+
+    fetchMicrolinkImage(websiteLink);
+  }, [websiteLink]);
+
+  async function SaveProject() {
+    setLoading(true);
+    console.log("its happenning")
+    try {
+      if(isChecked == false){
+        const res = await axios.post("/api/save", {
+        name, creatorName, websiteLink, description
+      });
+      console.log('Server Response:', res.data);
+    } else {
+      const res = await axios.delete("/api/delete", {
+        data: { websiteLink }  // Pass the websiteLink to delete the project
+    });
+      console.log('Server Response:', res.data);
+    }
+      setIsChecked(!isChecked)
+    } catch (error) {
+      console.log("Error occurred while saving or deleting", error);
+    } finally {
+      setLoading(false);
+    }
+    console.log(isChecked);
+  }
+
+
   return (
-      <div className="flex gap-4 h-[15vw] rounded-lg bg-red-200">
-        {/* <div className="h-[20vw]">
-          <Image src={blogContent.image} fill alt="image" />
-        </div> */}
+    <>
+      <div className="h-52 w-full border relative rounded-2xl dark:bg-white dark:text-black flex justify-between overflow-hidden pr-5 pl-6">
+        <div className="z-20 h-full flex flex-col justify-between gap-3 py-6 w-full">
+          <div className="flex flex-col gap-1">
+          <h1 className="text-xl font-sans font-semibold">{name}</h1>
+          <div className="flex gap-1 items-center">
+          <CornerDownRight size={20} />
+          <Badge className="w-fit mt-1">By {creatorName}</Badge>
+          </div>
+          </div>
+          <Link href={websiteLink} target="_blank" className="flex gap-1 hover:gap-3 duration-200 ease-in-out items-center">Try Now <ArrowRight size={20} /></Link>
+          {/* <h1>{description}</h1> */}
         </div>
+        <div className="">
+        <Checkbox isChecked={isChecked} onClick={SaveProject} />
+        </div>
+        <div className="rounded-tl-md overflow-hidden z-30 absolute hover:shadow-lg bottom-0 right-0">
+        <Image src={imageUrl} alt="Example" width={250} height={250} />
+        </div>
+      </div>
+      </>
   );
 }
 
-const blogContent = {
-  slug: "amazing-tailwindcss-grid-layouts",
-  author: "Manu Arora",
-  date: "28th March, 2023",
-  title: "Amazing Tailwindcss Grid Layout Examples",
-  description:
-    "Grids are cool, but Tailwindcss grids are cooler. In this article, we will learn how to create amazing Grid layouts with Tailwindcs grid and React.",
-  image: "https://particle.scitech.org.au/wp-content/uploads/2022/12/GettyImages-1203853320-scaled.jpg",
-  authorAvatar: "https://t4.ftcdn.net/jpg/06/78/09/75/360_F_678097580_mgsNEISedI7fngOwIipYtEU0T6SN8qKv.jpg",
-};
-
-const TitleComponent = ({
-  title,
-  avatar,
-}: {
-  title: string;
-  avatar: string;
-}) => (
-    <div className="flex space-x-2 items-center">
-    <Image
-      src={avatar}
-      height="20"
-      width="20"
-      alt="thumbnail"
-      className="rounded-full border-2 border-white"
-    />
-    <p>{title}</p>
-  </div>
-);
+export default Cardd;

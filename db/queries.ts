@@ -5,7 +5,7 @@ import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { user, chat, User, reservation } from "./schema";
+import { user, chat, User, reservation, project } from "./schema";
 
 // Optionally, if not using email/pass login, you can
 // use the Drizzle adapter for Auth.js / NextAuth
@@ -99,44 +99,73 @@ export async function getChatById({ id }: { id: string }) {
   }
 }
 
-export async function createReservation({
+export async function saveProject({
   id,
+  name,
+  creatorName,
+  websiteLink,
+  description,
   userId,
-  details,
 }: {
   id: string;
+  name: string;
+  creatorName: string;
+  websiteLink: string;
+  description: string;
   userId: string;
-  details: any;
 }) {
-  return await db.insert(reservation).values({
-    id,
-    createdAt: new Date(),
-    userId,
-    hasCompletedPayment: false,
-    details: JSON.stringify(details),
-  });
+  try {
+    // Check if the project with the given ID already exists
+    const selectedprojects = await db
+      .select()
+      .from(project)
+      .where(eq(project.id, id));
+
+    if (selectedprojects.length > 0) {
+      // If the project exists, update the existing record
+      return await db
+        .update(project)
+        .set({
+          name,
+          creatorName,
+          websiteLink,
+          description,
+        })
+        .where(eq(project.id, id));
+    }
+
+    // If the project doesn't exist, insert a new record
+    return await db.insert(project).values({
+      id,
+      name,
+      creatorName,
+      websiteLink,
+      description,
+      createdAt: new Date(),  // Adding a creation timestamp
+      userId,
+    });
+  } catch (error) {
+    console.error("Failed to save project in database", error);
+    throw error;  // Rethrow the error for further handling
+  }
 }
 
-export async function getReservationById({ id }: { id: string }) {
-  const [selectedReservation] = await db
-    .select()
-    .from(reservation)
-    .where(eq(reservation.id, id));
-
-  return selectedReservation;
+export async function getProjectByLink({ websiteLink }: { websiteLink: string }) {
+  try {
+    const [selectedProject] = await db.select().from(project).where(eq(project.websiteLink, websiteLink));
+    return selectedProject;
+  } catch (error) {
+    console.error("Failed to get project by website link from database");
+    throw error;
+  }
 }
 
-export async function updateReservation({
-  id,
-  hasCompletedPayment,
-}: {
-  id: string;
-  hasCompletedPayment: boolean;
-}) {
-  return await db
-    .update(reservation)
-    .set({
-      hasCompletedPayment,
-    })
-    .where(eq(reservation.id, id));
+export async function deleteProject({ websiteLink }: { websiteLink: string }) {
+  try {
+    return await db.delete(project).where(eq(project.websiteLink, websiteLink));
+  } catch (error) {
+    console.error("Failed to delete project by website link from database");
+    throw error;
+  }
 }
+

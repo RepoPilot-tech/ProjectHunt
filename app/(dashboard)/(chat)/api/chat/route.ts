@@ -39,10 +39,10 @@ Tool/Project Name
 Website Link
 Creator/Builder Name
 Brief small description about the tool under 25 words
-Always present exactly five recommendations that are relevant to the user’s query, prioritizing quality and effectiveness. If needed, access the latest and most reliable resources on the internet to gather this information.
+Always present exactly five recommendations that are relevant to the user’s query, prioritizing quality and effectiveness. never give fake information to the user If needed, access the latest and most reliable resources on the internet to gather this information.
 - Today's date is ${new Date().toLocaleDateString()}.
 - keep your responses limited to a sentence.
-- after every tool call, pretend you're showing the result to the user and keep your response limited to a phrase saying here are some....
+- after every tool call, pretend you're showing the result to the user and keep your response limited to a line
   `,
     messages: coreMessages,
     tools: {

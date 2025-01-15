@@ -59,8 +59,10 @@ export const Message = ({
               } else {
                 return (
                   <div key={toolCallId} className="skeleton">
-                    {toolName === "getWeather" ? (
-                      <ToolRecommendations />
+                    {toolName === "combinedQueryTool" ? (
+                      <div className="h-10 w-full bg-gray-200">
+                        showing....
+                      </div>
                     ) : null}
                   </div>
                 );
