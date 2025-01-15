@@ -5,13 +5,14 @@ import React from 'react';
 interface CheckboxProps {
   isChecked: boolean;
   onClick: () => void;
+  spaces: string[]
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick, spaces }) => {
   return (
-    <button onClick={onClick} className="inline-block">
+    <button onClick={onClick} className="inline-block relative">
+      {/* <div className='absolute top-0 left-0 right-0 h-6 bg-red-300 w-12 z-50'></div> */}
       <label className="flex items-center m-2.5 font-sans text-black cursor-pointer" htmlFor="checkbox1">
-        <span className="mr-2.5 font-bold select-none">Save</span>
         <input 
           className="hidden" 
           checked={isChecked}

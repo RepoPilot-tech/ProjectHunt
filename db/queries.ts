@@ -115,14 +115,12 @@ export async function saveProject({
   userId: string;
 }) {
   try {
-    // Check if the project with the given ID already exists
     const selectedprojects = await db
       .select()
       .from(project)
       .where(eq(project.id, id));
 
     if (selectedprojects.length > 0) {
-      // If the project exists, update the existing record
       return await db
         .update(project)
         .set({
@@ -134,19 +132,18 @@ export async function saveProject({
         .where(eq(project.id, id));
     }
 
-    // If the project doesn't exist, insert a new record
     return await db.insert(project).values({
       id,
       name,
       creatorName,
       websiteLink,
       description,
-      createdAt: new Date(),  // Adding a creation timestamp
+      createdAt: new Date(), 
       userId,
     });
   } catch (error) {
     console.error("Failed to save project in database", error);
-    throw error;  // Rethrow the error for further handling
+    throw error; 
   }
 }
 
@@ -168,4 +165,91 @@ export async function deleteProject({ websiteLink }: { websiteLink: string }) {
     throw error;
   }
 }
+
+export async function saveProject({
+  id,
+  name,
+  creatorName,
+  websiteLink,
+  description,
+  userId,
+}: {
+  id: string;
+  name: string;
+  creatorName: string;
+  websiteLink: string;
+  description: string;
+  userId: string;
+}) {
+  try {
+    const selectedprojects = await db
+      .select()
+      .from(project)
+      .where(eq(project.id, id));
+
+    if (selectedprojects.length > 0) {
+      return await db
+        .update(project)
+        .set({
+          name,
+          creatorName,
+          websiteLink,
+          description,
+        })
+        .where(eq(project.id, id));
+    }
+
+    return await db.insert(project).values({
+      id,
+      name,
+      creatorName,
+      websiteLink,
+      description,
+      createdAt: new Date(), 
+      userId,
+    });
+  } catch (error) {
+    console.error("Failed to save project in database", error);
+    throw error; 
+  }
+}
+
+
+// correct save space function its not working correctly
+export async function saveSpace(spaceData) {
+  console.log("from inside save space", spaceData);
+  try {
+    // Destructure directly from spaceData
+    const spaceData = await db
+      .select()
+      .from(project)
+      .where(eq(project.id, id));
+
+    if (selectedprojects.length > 0) {
+      return await db
+        .update(project)
+        .set({
+          name,
+          creatorName,
+          websiteLink,
+          description,
+        })
+        .where(eq(project.id, id));
+    }
+
+    return await db.insert(project).values({
+      id,
+      name,
+      creatorName,
+      websiteLink,
+      description,
+      createdAt: new Date(), 
+      userId,
+    });
+  } catch (error) {
+    console.error("Failed to save space:", error);
+    throw new Error("Failed to save space");
+  }
+}
+
 

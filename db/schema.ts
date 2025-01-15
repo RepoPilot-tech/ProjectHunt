@@ -50,5 +50,16 @@ export const project = pgTable("Project", {
   description: varchar("description", { length: 1000 }).notNull(),
   createdAt: timestamp("createdAt").notNull(), 
   userId: uuid("userId").notNull().references(() => user.id), 
+  spaceId: uuid("spaceId").references(() => space.id),
 });
 export type Project = InferSelectModel<typeof project>;
+
+export const space = pgTable("Spaces", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  name: varchar("name", { length: 255 }).notNull(), 
+  icon: varchar("icon", { length: 255 }).notNull(), 
+  createdAt: timestamp("createdAt").notNull(),  
+  userId: uuid("userId").notNull().references(() => user.id),
+});
+
+export type Spaces = InferSelectModel<typeof space>;
