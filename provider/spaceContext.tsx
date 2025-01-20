@@ -27,7 +27,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
         console.log("Adding space...")
         console.log("from context", newSpace)
         try {
-            const res = await axios.post("/api/space", newSpace);
+          const res = await axios.post("/api/space", newSpace);
           console.log('Server Response:', res.data);
           setData((prevData) => [...prevData, newSpace]);
         } catch (error) {

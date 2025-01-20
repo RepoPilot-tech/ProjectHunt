@@ -166,53 +166,53 @@ export async function deleteProject({ websiteLink }: { websiteLink: string }) {
   }
 }
 
-export async function saveProject({
-  id,
-  name,
-  creatorName,
-  websiteLink,
-  description,
-  userId,
-}: {
-  id: string;
-  name: string;
-  creatorName: string;
-  websiteLink: string;
-  description: string;
-  userId: string;
-}) {
-  try {
-    const selectedprojects = await db
-      .select()
-      .from(project)
-      .where(eq(project.id, id));
+// export async function saveProject({
+//   id,
+//   name,
+//   creatorName,
+//   websiteLink,
+//   description,
+//   userId,
+// }: {
+//   id: string;
+//   name: string;
+//   creatorName: string;
+//   websiteLink: string;
+//   description: string;
+//   userId: string;
+// }) {
+//   try {
+//     const selectedprojects = await db
+//       .select()
+//       .from(project)
+//       .where(eq(project.id, id));
 
-    if (selectedprojects.length > 0) {
-      return await db
-        .update(project)
-        .set({
-          name,
-          creatorName,
-          websiteLink,
-          description,
-        })
-        .where(eq(project.id, id));
-    }
+//     if (selectedprojects.length > 0) {
+//       return await db
+//         .update(project)
+//         .set({
+//           name,
+//           creatorName,
+//           websiteLink,
+//           description,
+//         })
+//         .where(eq(project.id, id));
+//     }
 
-    return await db.insert(project).values({
-      id,
-      name,
-      creatorName,
-      websiteLink,
-      description,
-      createdAt: new Date(), 
-      userId,
-    });
-  } catch (error) {
-    console.error("Failed to save project in database", error);
-    throw error; 
-  }
-}
+//     return await db.insert(project).values({
+//       id,
+//       name,
+//       creatorName,
+//       websiteLink,
+//       description,
+//       createdAt: new Date(), 
+//       userId,
+//     });
+//   } catch (error) {
+//     console.error("Failed to save project in database", error);
+//     throw error; 
+//   }
+// }
 
 
 // correct save space function its not working correctly
