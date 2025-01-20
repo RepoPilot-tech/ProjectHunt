@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
-import { auth } from "../(auth)/auth";
+
 import { SidebarLeft } from "@/components/sidebar-left";
 import { SidebarRight } from "@/components/sidebar-right";
 import { SidebarProvider } from "@/components/ui/sidebar";
+
+import { auth } from "../(auth)/auth";
 
 type LayoutProps = {
   children: ReactNode;
@@ -14,10 +16,10 @@ const Layout = async ({ children }: {children: React.ReactNode}) => {
     <SidebarProvider>
     <main className='flex justify-between w-full'>
               <SidebarLeft user={session?.user} />
-                  <div className=''>
+                  <div className='w-full'>
                       {children}
                   </div>
-              <SidebarRight user={session?.user} />
+              {/* <SidebarRight user={session?.user} /> */}
       </main>
       </SidebarProvider>
   );

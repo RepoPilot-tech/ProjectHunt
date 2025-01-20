@@ -11,7 +11,13 @@ import { Badge } from "./badge";
 import Checkbox from "./checkbox";
 import Link from "next/link";
 
-const Cardd = ({name, creatorName, websiteLink, description}) => {
+interface Card {
+  name: String,
+  creatorName: String,
+  websiteLink: String,
+  description?: String
+}
+const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   const [save, setSave] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(image);

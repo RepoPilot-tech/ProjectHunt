@@ -43,15 +43,7 @@ import {
   AlertDialogTitle,
 } from "./ui/alert-dialog";
 
-export function NavFavorites({
-  favorites,
-}: {
-  favorites: {
-    name: string
-    url: string
-    emoji: string
-  }[]
-}) {
+export function NavFavorites() {
   const { isMobile } = useSidebar()
 
   const {id} = useParams();

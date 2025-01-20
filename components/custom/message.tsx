@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { PreviewAttachment } from "./preview-attachment";
-import ToolRecommendations from "../projectopedia/ToolRecommendations";
+import ToolRecommendations from "../projectHunt/ToolRecommendations";
 
 export const Message = ({
   chatId,

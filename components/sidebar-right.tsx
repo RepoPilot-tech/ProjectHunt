@@ -1,9 +1,13 @@
 
 import { Plus, PlusIcon } from "lucide-react"
 
-import { Spaces } from "@/components/Spaces"
-import { DatePicker } from "@/components/date-picker"
 import { NavUser } from "@/components/nav-user"
+import { Spaces } from "@/components/Spaces"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Sidebar,
   SidebarContent,
@@ -16,18 +20,12 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import { User } from "@/db/schema"
-
-import { ProjectShowCase } from "./projectopedia/ProjectShowCase"
-import MainPopover from "./main-popover"
 import { DataProvider } from "@/provider/spaceContext"
 
-// This is sample data.
+import MainPopover from "./main-popover"
+import { ProjectShowCase } from "./projectHunt/ProjectShowCase"
+
 const data = {
   user: {
     name: "shadcn",

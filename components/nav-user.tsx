@@ -7,6 +7,7 @@ import {
   Sparkles,
 } from "lucide-react"
 
+import { signOut } from "@/app/(auth)/auth"
 import {
   Avatar,
   AvatarFallback,
@@ -27,9 +28,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { SignOutt } from "./projectopedia/SignOutt"
-import { signOut } from "@/app/(auth)/auth"
+
 import { ThemeToggle } from "./custom/theme-toggle"
+import { SignOutt } from "./projectHunt/SignOutt"
+
 
 export function NavUser({
   user,
@@ -39,7 +41,6 @@ export function NavUser({
     email: string
   }
 }) {
-  // const { isMobile } = useSidebar()
 
   return (
     <SidebarMenu>
@@ -69,9 +70,9 @@ export function NavUser({
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
+                <Avatar className="size-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">FK</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -79,29 +80,10 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
+            {/* <DropdownMenuItem>
+              
+            </DropdownMenuItem> */}
             <DropdownMenuItem>
               <form className="w-full" action={async () => {
                       "use server";

@@ -1,19 +1,15 @@
 import { Metadata } from "next";
 import { Toaster } from "sonner";
 
-import { Navbar } from "@/components/custom/navbar";
 import { ThemeProvider } from "@/components/custom/theme-provider";
 
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { SidebarLeft } from "@/components/sidebar-left";
-import { SidebarRight } from "@/components/sidebar-right";
 import { auth } from "./(auth)/auth";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gemini.vercel.ai"),
-  title: "ProjectoPedia",
-  description: "Next.js chatbot template using the AI SDK and Gemini.",
+  // metadataBase: new URL(""),
+  title: "Project Hunt",
+  description: "ProjectHunt Place to find all your projects.",
 };
 
 export default async function RootLayout({

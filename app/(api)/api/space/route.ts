@@ -1,8 +1,9 @@
 // app/api/save/route.ts
 
+import { NextResponse } from 'next/server';
+
 import { auth } from '@/app/(auth)/auth';
 import { saveSpace } from '@/db/queries';
-import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
     try {
