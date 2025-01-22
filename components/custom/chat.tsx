@@ -22,7 +22,7 @@ export function Chat({
       id,
       body: { id },
       initialMessages,
-      maxSteps: 10,
+      maxSteps: 15,
       onFinish: () => {
         window.history.replaceState({}, "", `/chat/${id}`);
       },
@@ -37,10 +37,11 @@ export function Chat({
 
   return (
     <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh">
-      <div className="flex flex-col justify-between items-center max-w-[850px] min-w-[300px] gap-4">
+      <div className="flex flex-col justify-between w-full items-center gap-4">
+
+        
         <div
-          ref={messagesContainerRef}
-          className="flex flex-col gap-4 h-full w-[64vw] items-center overflow-y-scroll"
+          className="flex flex-col gap-4 h-full max-w-[43vw]  items-center overflow-y-scroll"
         >
           {messages.length === 0 && <Overview />}
 
@@ -54,13 +55,9 @@ export function Chat({
               toolInvocations={message.toolInvocations}
             />
           ))}
-
-          <div
-            ref={messagesEndRef}
-            className="shrink-0 min-w-[34px] min-h-[24px]"
-          />
         </div>
-        <form className="flex flex-row gap-2 relative w-full items-end md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
+
+        <form className="flex flex-row gap-2 relative items-end px-4 md:px-0">
           <MultimodalInput
             input={input}
             setInput={setInput}
@@ -73,6 +70,8 @@ export function Chat({
             append={append}
           />
         </form>
+
+
       </div>
     </div>
   );

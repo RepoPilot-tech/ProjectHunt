@@ -12,10 +12,10 @@ const ToolRecommendations = ({ recommendations }: any) => {
 
   return (
     <div>
-      <h2>Recommended Tools</h2>
-      <div className='flex flex-col gap-3 h-fit'>
+      <h2 className='mb-3'>Recommended Tools</h2>
+      <div className='grid grid-cols-2 gap-3 h-fit'>
         {tools.map((tool: any, index: number) => (
-            <div key={index} className={`${index === tool.length - 1 ? 'col-span-2 p-8 border-2' : ''}`}>
+            <div key={index}>
               <Cardd name={tool.name} creatorName={tool.creatorName} websiteLink={tool.websiteLink} description={tool.description} key={index} />
             </div>
         ))}

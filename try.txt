@@ -1,3 +1,13 @@
+--> V1
+/ screenshot view use diffrent lib
+/ prisma to drizzle
+/ make changes in sidebar and searchbar work
+/ loading
+/ chat ui manage
+/ compatible with phones
+/ input box manage
+/ improve prompt
+
 --> get dashboard to main page / from /dashboard
 
 --> manage spaces ui and sidebar width

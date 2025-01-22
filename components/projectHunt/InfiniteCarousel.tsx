@@ -1,12 +1,13 @@
 "use client";
 
 import { motion, useAnimationControls } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
-import Cardd from "../ui/cardd";
 import { ArrowRight, CornerDownRight } from "lucide-react";
-import { Badge } from "../ui/badge";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+
+import { Badge } from "../ui/badge";
+import Cardd from "../ui/cardd";
 import ImageFetch from "../ui/ImageFetch";
 
 interface Card {
@@ -125,7 +126,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
                 <Link href={card.WebsiteLink} target="_blank" className="flex gap-1 hover:gap-3 duration-200 ease-in-out items-center">Try Now <ArrowRight size={20} /></Link>
               </motion.div>
             )}
-            <div className="">
+            <div className="rounded-tl-md overflow-hidden z-30 absolute hover:shadow-lg bottom-0 right-0">
                     <ImageFetch imageLink={card.WebsiteLink} />
             </div>
           </motion.div>
@@ -173,7 +174,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
                     <ImageFetch imageLink={card.WebsiteLink} />
             </div>
           </motion.div>
-        ))}
+        ))} 
       </motion.div>
     </div>
   );

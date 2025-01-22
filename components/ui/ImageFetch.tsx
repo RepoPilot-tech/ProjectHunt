@@ -8,12 +8,20 @@ interface ImageProps{
     imageLink: string
 }
 const ImageFetch: React.FC<ImageProps> = ({imageLink}) => {
-    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
     useEffect(() => {
-        async function fetchMicrolinkImage(link: String) {
+        async function fetchMicrolinkImage(link: string) {
+          const cachedUrl = localStorage.getItem(link);
+          if(cachedUrl){
+            setImageUrl(cachedUrl);
+            return;
+          }
+
           try {
             const { data } = await axios.get(`https://api.microlink.io?url=${link}&screenshot=true`);
-            setImageUrl(data?.data?.screenshot.url || "");
+            const imageUrl = data?.data?.screenshot?.url;
+            setImageUrl(imageUrl);
+            localStorage.setItem(link, imageUrl)
             console.log("data now", data.data.screenshot.url)
           } catch (error) {
             console.error('Error fetching image:', error);

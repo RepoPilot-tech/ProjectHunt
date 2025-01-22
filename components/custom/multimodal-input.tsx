@@ -15,21 +15,27 @@ import { toast } from "sonner";
 
 import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import useWindowSize from "./use-window-size";
-import { Button } from "../ui/button";
+// import { Button } from "../ui/button";
+import Button from "../ui/moving-border";
 import { Textarea } from "../ui/textarea";
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 const suggestedActions = [
   {
-    title: "Pre-Build ReactJs Component",
-    action: "Help me book a flight from San Francisco to London",
+    title: "Libraries for HTML5 Canvas",
+    action: "Libraries for HTML5 Canvas to help me draw",
   },
   {
     title: "Pre-Build ReactJs Component",
-    action: "Help me book a flight from San Francisco to London",
+    action: "Pre-Build React Js Components whose code can be copy pasted",
   },
   {
-    title: "Viral Fun Tols",
-    action: "Current Trending fun tools/projects",
+    title: "Viral Fun Tools",
+    action: "Viral Fun Tools on twitter right now like git wrapped",
+  },
+  {
+    title: "Gradient Genrator",
+    action: "Gradient generator like gradii.fun",
   },
 ];
 
@@ -124,13 +130,14 @@ export function MultimodalInput({
           </div>
         )}
 
+        <div className="relative w-full flex items-center justify-center">
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Search for a Project..."
         value={input}
         onChange={handleInput}
-        className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted border-none"
-        rows={3}
+        className="max-h-[15vh] overflow-hidden resize-none outline-none active:outline-none relative focus:border-none! focus:outline-none! rounded-2xl text-base bg-muted border-none"
+        rows={1}
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
@@ -144,28 +151,29 @@ export function MultimodalInput({
         }}
       />
 
-      {isLoading ? (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
+      {/* {isLoading ? (
+        <button
+          className="p-2 hover:bg-gray-200 duration-200 border flex items-center justify-center absolute top-[1.35rem] shadow-lg bg-white opacity-100 text-black right-2 rounded-full"
           onClick={(event) => {
             event.preventDefault();
             stop();
           }}
         >
           <StopIcon size={14} />
-        </Button>
+        </button>
       ) : (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
+        <button
           onClick={(event) => {
             event.preventDefault();
             submitForm();
           }}
           disabled={input.length === 0 || uploadQueue.length > 0}
+          className="p-2 hover:bg-gray-200 duration-200 border flex items-center justify-center absolute top-[1.35rem] shadow-lg bg-white opacity-100 text-black right-2 rounded-full"
         >
-          <ArrowUpIcon size={14} />
-        </Button>
-      )}
+          <ChevronRight size={20} />
+        </button>
+      )} */}
+    </div>
     </div>
   );
 }
