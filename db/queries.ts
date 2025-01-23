@@ -5,11 +5,8 @@ import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
-import { user, chat, User, reservation, project } from "./schema";
+import { user, chat, User, project } from "./schema";
 
-// Optionally, if not using email/pass login, you can
-// use the Drizzle adapter for Auth.js / NextAuth
-// https://authjs.dev/reference/adapter/drizzle
 let client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
 let db = drizzle(client);
 
@@ -165,55 +162,6 @@ export async function deleteProject({ websiteLink }: { websiteLink: string }) {
     throw error;
   }
 }
-
-// export async function saveProject({
-//   id,
-//   name,
-//   creatorName,
-//   websiteLink,
-//   description,
-//   userId,
-// }: {
-//   id: string;
-//   name: string;
-//   creatorName: string;
-//   websiteLink: string;
-//   description: string;
-//   userId: string;
-// }) {
-//   try {
-//     const selectedprojects = await db
-//       .select()
-//       .from(project)
-//       .where(eq(project.id, id));
-
-//     if (selectedprojects.length > 0) {
-//       return await db
-//         .update(project)
-//         .set({
-//           name,
-//           creatorName,
-//           websiteLink,
-//           description,
-//         })
-//         .where(eq(project.id, id));
-//     }
-
-//     return await db.insert(project).values({
-//       id,
-//       name,
-//       creatorName,
-//       websiteLink,
-//       description,
-//       createdAt: new Date(), 
-//       userId,
-//     });
-//   } catch (error) {
-//     console.error("Failed to save project in database", error);
-//     throw error; 
-//   }
-// }
-
 
 // correct save space function its not working correctly
 export async function saveSpace(spaceData) {

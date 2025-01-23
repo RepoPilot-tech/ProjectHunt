@@ -8,7 +8,42 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id       String    @id @default(uuid())
+  email    String    @unique
+  name     String?
+  password String
+  chat     Chat[]
+  project  Project[]
+  spaces   Spaces[]
+}
+
+model Chat {
+  id        String  @id @default(uuid())
+  createdAt DateTime @default(now())
+  messages  Json?
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id           String  @id @default(uuid())
+  name         String
+  creatorName  String
+  websiteLink  String   @unique
+  description  String?
+  createdAt    DateTime @default(now())
+  userId       String
+  spaceId      String?
+  user         User @relation(fields: [userId], references: [id])
+  space        Spaces? @relation(fields: [spaceId], references: [id])
+}
+
+model Spaces {
+  id        String  @id @default(uuid())
+  name      String
+  icon      String
+  createdAt DateTime @default(now())
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
+  project   Project[]
 }
