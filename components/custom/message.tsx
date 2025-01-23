@@ -8,6 +8,7 @@ import { BotIcon, UserIcon } from "./icons";
 import { Markdown } from "./markdown";
 import { PreviewAttachment } from "./preview-attachment";
 import ToolRecommendations from "../projectHunt/ToolRecommendations";
+import MessageLoading from "./message-loading";
 
 export const Message = ({
   chatId,
@@ -28,9 +29,6 @@ export const Message = ({
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
-      {/* <div className={`size-[24px] border rounded-sm p-1 flex flex-col bg-red-200 justify-end items-end shrink-0 text-zinc-500`}>
-        {role === "assistant" ? <BotIcon /> : <UserIcon />}
-      </div> */}
 
       <div className="flex flex-col gap-2 w-full">
         {content && typeof content === "string" && (
@@ -64,9 +62,7 @@ export const Message = ({
                 return (
                   <div key={toolCallId} className="skeleton">
                     {toolName === "combinedQueryTool" ? (
-                      <div className="h-10 w-full bg-gray-200">
-                        showing....
-                      </div>
+                      <MessageLoading />
                     ) : null}
                   </div>
                 );

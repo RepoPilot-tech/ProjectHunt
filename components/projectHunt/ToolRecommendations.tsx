@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 
 import Cardd from '../ui/cardd';
-import Checkbox from '../ui/checkbox';
-import Check from '../ui/check';
 
 
 const ToolRecommendations = ({ recommendations }: any) => {

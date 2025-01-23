@@ -1,5 +1,5 @@
 --> V1
-/ screenshot view use diffrent lib
+/ screenshot view use diffrent lib - Done
 / prisma to drizzle
 / make changes in sidebar and searchbar work
 / loading

@@ -74,7 +74,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
 
   return (
     <>
-      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-gray-200 dark:text-black flex overflow-hidden pr-0 pl-3">
+      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-gray-50 dark:text-black flex overflow-hidden pr-0 pl-3">
         <div className="z-20 h-full flex flex-col justify-between gap-3 bg-gray-50 py-3 w-full">
           <div className="flex flex-col gap-1">
           <h1 className="text-xl font-sans font-semibold">{name}</h1>
