@@ -2,7 +2,8 @@ import { compare } from "bcrypt-ts";
 import NextAuth, { User, Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "@/db/queries";
+
+import { getUser } from "@/queries/queries";
 
 import { authConfig } from "./auth.config";
 
@@ -22,9 +23,12 @@ export const {
       credentials: {},
       async authorize({ email, password }: any) {
         let users = await getUser(email);
-        if (users.length === 0) return null;
-        let passwordsMatch = await compare(password, users[0].password!);
-        if (passwordsMatch) return users[0] as any;
+        
+        if(!users){
+          return null;
+        }
+        let passwordsMatch = await compare(password, users.password!);
+        if (passwordsMatch) return users as any;
       },
     }),
   ],

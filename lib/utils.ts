@@ -8,8 +8,6 @@ import {
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { Chat } from "@/db/schema";
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -85,8 +83,24 @@ function addToolMessageToChat({
 }
 
 export function convertToUIMessages(
-  messages: Array<CoreMessage>,
+  messages: any,
 ): Array<Message> {
+
+  if (typeof messages === "string") {
+    try {
+      messages = JSON.parse(messages); // Parse the string into an object
+    } catch (error) {
+      console.error("Failed to parse messages:", error);
+      throw new TypeError("Invalid messages format: expected a JSON array string.");
+    }
+  }
+
+  // Ensure `messages` is an array
+  if (!Array.isArray(messages)) {
+    console.error("Invalid input: messages is not an array.");
+    throw new TypeError("Expected messages to be an array.");
+  }
+
   return messages.reduce((chatMessages: Array<Message>, message) => {
     if (message.role === "tool") {
       return addToolMessageToChat({
@@ -126,7 +140,7 @@ export function convertToUIMessages(
   }, []);
 }
 
-export function getTitleFromChat(chat: Chat) {
+export function getTitleFromChat(chat) {
   const messages = convertToUIMessages(chat.messages as Array<CoreMessage>);
   const firstMessage = messages[0];
 

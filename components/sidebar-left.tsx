@@ -14,10 +14,10 @@ import {
 import { User } from "next-auth"
 import * as React from "react"
 
-import { NavFavorites } from "@/components/nav-favorites"
 import { NavMain } from "@/components/nav-main"
 import { NavSecondary } from "@/components/nav-secondary"
 import { NavWorkspaces } from "@/components/nav-workspaces"
+import { NavHistory } from "@/components/navhistory"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
@@ -47,7 +47,7 @@ export function SidebarLeft({
     </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavFavorites />
+        <NavHistory user={user} />
       </SidebarContent>
       <SidebarFooter>
       <NavUser user={user} />

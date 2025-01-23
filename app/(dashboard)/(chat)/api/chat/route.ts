@@ -6,12 +6,8 @@ import {
   generateRecommendations
 } from "@/ai/actions";
 import { auth } from "@/app/(auth)/auth";
-import {
-  deleteChatById,
-  getChatById,
-  saveChat,
-} from "@/db/queries";
-import { generateUUID } from "@/lib/utils";
+// import { generateUUID } from "@/lib/utils";
+import { deleteChatById, getChatById, saveChat } from "@/queries/queries";
 
 export async function POST(request: Request) {
   const { id, messages }: { id: string; messages: Array<Message> } =
@@ -105,7 +101,7 @@ export async function DELETE(request: Request) {
   try {
     const chat = await getChatById({ id });
 
-    if (chat.userId !== session.user.id) {
+    if (chat?.userId !== session.user.id) {
       return new Response("Unauthorized", { status: 401 });
     }
 

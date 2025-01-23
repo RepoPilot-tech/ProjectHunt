@@ -1,6 +1,8 @@
-import { auth } from "@/app/(auth)/auth";
-import { deleteProject, getProjectByLink } from "@/db/queries";
 import { NextResponse } from "next/server";
+
+import { auth } from "@/app/(auth)/auth";
+import { deleteProject, getProjectByLink } from "@/queries/queries";
+
 
 export async function DELETE(req: Request) {
         const { websiteLink } = await req.json();  // Extract websiteLink from the request
@@ -24,6 +26,7 @@ export async function DELETE(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
+    console.log("reached here", websiteLink);
     await deleteProject({ websiteLink });
 
     return new Response("Project deleted", { status: 200 });

@@ -1,8 +1,10 @@
 // app/api/save/route.ts
 
-import { auth } from '@/app/(auth)/auth';
-import { saveProject } from '@/db/queries';
 import { NextResponse } from 'next/server';
+
+import { auth } from '@/app/(auth)/auth';
+import { saveProject } from '@/queries/queries';
+
 
 export async function POST(req: Request) {
     try {
@@ -15,7 +17,7 @@ export async function POST(req: Request) {
       // Call the saveProject function to save the project
       try {
         const project = await saveProject({
-          id: crypto.randomUUID(), // Generating a random UUID for the project ID
+          id: crypto.randomUUID(),
           name,
           creatorName,
           websiteLink,

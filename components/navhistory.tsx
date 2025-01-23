@@ -8,6 +8,11 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from 'next/link';
+import { useParams, usePathname } from "next/navigation"
+import { useEffect, useState } from "react"
+import { toast } from "sonner"
+import useSWR from "swr"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,13 +29,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { useParams, usePathname } from "next/navigation"
-import useSWR from "swr"
 import { fetcher, getTitleFromChat } from "@/lib/utils"
-import { Chat, user } from "@/db/schema"
-import { useEffect, useState } from "react"
-import { toast } from "sonner"
-import { Button } from "./ui/button"
+
 import { PencilEditIcon } from "./custom/icons"
 import {
   AlertDialog,
@@ -42,10 +42,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "./ui/alert-dialog";
+import { Button } from "./ui/button"
 
-export function NavFavorites() {
+export function NavHistory({user}) {
   const { isMobile } = useSidebar()
-
   const {id} = useParams();
   const pathname = usePathname();
 
@@ -54,7 +54,7 @@ export function NavFavorites() {
     data: history,
     isLoading,
     mutate,
-  } = useSWR<Array<Chat>>(user ? "/api/history" : null, fetcher, {
+  } = useSWR<Array<any>>(user ? "/api/history" : null, fetcher, {
     fallbackData: [],
   })
 

@@ -3,7 +3,7 @@
 import { NextResponse } from 'next/server';
 
 import { auth } from '@/app/(auth)/auth';
-import { saveSpace } from '@/db/queries';
+import { saveSpace } from '@/queries/queries';
 
 export async function POST(request: Request) {
     try {
@@ -18,14 +18,14 @@ export async function POST(request: Request) {
         return new Response("Unauthorized", { status: 401 });
       }
   
-      const newSpace = {
-        name,
-        icon,
-        userId: session.user.id,
-      };
+      const userId = session.user.id
   
+      if(!userId){
+        return;
+      }
+
       // Save the space to the database
-      const savedSpace = await saveSpace(newSpace);
+      const savedSpace = await saveSpace({name, icon, userId});
   
       return new Response(JSON.stringify(savedSpace), {
         status: 201,
