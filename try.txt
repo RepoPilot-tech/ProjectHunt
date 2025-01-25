@@ -1,20 +1,22 @@
 --> V1
 / screenshot view use diffrent lib - Done
-/ prisma to drizzle
-/ make changes in sidebar and searchbar work
-/ loading
-/ chat ui manage
-/ compatible with phones
-/ input box manage
+/ prisma to drizzle - Done
+/ make changes in sidebar and searchbar work -Done
+/ loading - Done [almost]
+/ chat ui manage - Done
+/ compatible with phones - [later]
+/ input box manage - Done [try 21st dev input box]
 / improve prompt
 
---> get dashboard to main page / from /dashboard
+--> get dashboard to main page / from /dashboard - [Done]
 
---> manage spaces ui and sidebar width
+--> manage spaces ui and sidebar width - Done
 
 --> make sure all functionalities work fine
 
---> show projects from chat into wobble ui component
+--> show projects from chat into wobble ui component - Problem but will try
+
+--> Landing page
 
 --> login with google and github
 

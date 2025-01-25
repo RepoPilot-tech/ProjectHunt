@@ -3,7 +3,9 @@
 import {
   ArrowUpRight,
   Link2,
+  LucideMessageCircleDashed,
   MoreHorizontal,
+  SparklesIcon,
   StarOff,
   Trash2,
 } from "lucide-react";
@@ -49,7 +51,6 @@ export function NavHistory({user}) {
   const {id} = useParams();
   const pathname = usePathname();
 
-  // const [isHistoryVisible, setIsHistoryVisible] = useState(false);
   const {
     data: history,
     isLoading,
@@ -90,12 +91,10 @@ export function NavHistory({user}) {
     <>
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       {user && (
-        <Button className="flex justify-center">
-          <Link href="/">
+          <Link href="/" className="flex gap-3 items-center border justify-center py-2 px-4 rounded-xl dark:text-black bg-gray-200 hover:bg-gray-300 duration-200">
                 <div>Search for a new tool</div>
+                <SparklesIcon />
           </Link>
-                {/* <PencilEditIcon size={14} /> */}
-        </Button>
       )}
 
       <SidebarGroupLabel className="flex justify-between mb-3">
@@ -107,7 +106,6 @@ export function NavHistory({user}) {
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
               <a href={`/chat/${item.id}`}>
-                {/* <span>{item.emoji}</span> */}
                 <span>{getTitleFromChat(item)}</span>
               </a>
             </SidebarMenuButton>

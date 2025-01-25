@@ -54,7 +54,7 @@ export function SidebarRight({
   return (
     <Sidebar
       collapsible="none"
-      className="sticky hidden lg:flex top-0 h-svh border-l overflow-y-scroll !w-[21rem]"
+      className="h-svh border-l-2 overflow-y-scroll !w-[32rem] rounded-l-3xl"
     >
       <SidebarHeader className="h-16 border-b border-sidebar-border">
         <NavUser user={user} />

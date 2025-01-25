@@ -34,9 +34,9 @@ export function SidebarLeft({
   user
 }: {user: User | undefined} ) {
   return (
-    <Sidebar className="border-r-0 !w-[21rem]">
+    <Sidebar className="border-r-2 rounded-r-3xl overflow-hidden">
       <SidebarHeader>
-        <h1 className="truncate font-semibold text-2xl pl-2">ProjectoPedia</h1>
+        <h1 className="truncate font-semibold text-2xl pl-2">Project Hunt</h1>
         <div className="relative w-full max-w-sm">
       <Input
         type="search"

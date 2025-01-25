@@ -14,12 +14,12 @@ const Layout = async ({ children }: {children: React.ReactNode}) => {
       let session = await auth()
   return (
     <SidebarProvider>
-    <main className='flex justify-between w-full'>
+    <main className='flex gap-2 w-screen'>
               <SidebarLeft user={session?.user} />
                   <div className='w-full'>
                       {children}
                   </div>
-              {/* <SidebarRight user={session?.user} /> */}
+              <SidebarRight user={session?.user} />
       </main>
       </SidebarProvider>
   );

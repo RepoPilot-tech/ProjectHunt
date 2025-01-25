@@ -36,13 +36,13 @@ export function Chat({
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
 
   return (
-    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh">
-      <div className="flex flex-col justify-between w-full items-center gap-4">
-
-        
+    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh overflow-hidden border-2 rounded-3xl">
+      <div className="flex flex-col justify-between w-full overflow-hidden items-center gap-4">
         <div
-          className="flex flex-col gap-4 h-full max-w-[43vw]  items-center overflow-y-scroll"
+          className={`flex flex-col gap-4 h-full items-center ${messages.length === 0 ? "max-w-[60vw]" : "max-w-[43vw]"} overflow-hidden overflow-y-scroll`}
         >
+          {/* max-w-[60vw] */}
+          {/* <Overview /> */}
           {messages.length === 0 && <Overview />}
 
           {messages.map((message) => (

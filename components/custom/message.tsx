@@ -25,20 +25,14 @@ export const Message = ({
 }) => {
   return (
     <motion.div
-      className={`flex flex-row gap-4 w-full first-of-type:pt-20`}
+      className={`flex flex-row gap-5 w-full first-of-type:pt-20`}
       initial={{ y: 5, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
 
-      <div className="flex flex-col gap-2 w-full">
+      <div className={`flex flex-col gap-2 w-full ${role == "assistant" ? "" : "items-end"}`}>
         {content && typeof content === "string" && (
-          <div className={`text-zinc-800 dark:text-zinc-300 ${role === "assistant" ? "" : "items-end text-base"} flex flex-col gap-4`}>
-            <span className={`${role === "assistant" ? "" : "border-r-4 border-blue-300 hover:bg-gray-100 hover:rounded-xl hover:text-black duration-200 max-w-[35vw] text-left py-2 px-3"}`}>
-            <Markdown>
-              {content}
-            </Markdown>
-            </span>
-          </div>
+          <div className={`${role == "assistant" ? "" : "max-w-[30vw] p-2  border-r-2 border-blue-300 hover:rounded-xl hover:bg-gray-100 hover:text-black duration-200"}`}>{content}</div>
         )}
 
         {toolInvocations && (
@@ -71,13 +65,13 @@ export const Message = ({
           </div>
         )}
 
-        {attachments && (
+        {/* {attachments && (
           <div className="flex flex-row gap-2">
             {attachments.map((attachment) => (
               <PreviewAttachment key={attachment.url} attachment={attachment} />
             ))}
           </div>
-        )}
+        )} */}
       </div>
     </motion.div>
   );
