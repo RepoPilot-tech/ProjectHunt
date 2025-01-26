@@ -2,6 +2,7 @@
 
 import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
+import { ArrowRight, ChevronRight } from "lucide-react";
 import React, {
   useRef,
   useEffect,
@@ -18,7 +19,7 @@ import useWindowSize from "./use-window-size";
 // import { Button } from "../ui/button";
 import Button from "../ui/moving-border";
 import { Textarea } from "../ui/textarea";
-import { ArrowRight, ChevronRight } from "lucide-react";
+
 
 const suggestedActions = [
   {
@@ -44,8 +45,6 @@ interface multimodalChatBot {
   setInput: (value: string) => void,
   isLoading: boolean,
   stop: () => void,
-  attachments: Array<Attachment>,
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>,
   messages: Array<Message>,
   append: (
     message: Message | CreateMessage,
@@ -88,8 +87,6 @@ export function MultimodalInput({
     setInput(event.target.value);
     adjustHeight();
   };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
   const submitForm = useCallback(() => {

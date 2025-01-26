@@ -15,13 +15,11 @@ export const Message = ({
   role,
   content,
   toolInvocations,
-  attachments,
 }: {
   chatId: string;
   role: string;
   content: string | ReactNode;
   toolInvocations: Array<ToolInvocation> | undefined;
-  attachments?: Array<Attachment>;
 }) => {
   return (
     <motion.div

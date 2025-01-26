@@ -21,10 +21,11 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { User } from "@/db/schema"
-import { DataProvider } from "@/provider/spaceContext"
+import {DataProvider } from "@/provider/spaceContext"
 
 import MainPopover from "./main-popover"
 import { ProjectShowCase } from "./projectHunt/ProjectShowCase"
+import React from "react"
 
 const data = {
   user: {
@@ -48,9 +49,11 @@ const data = {
   ],
 }
 
+
 export function SidebarRight({
   user
 }: {user: User | undefined}) {
+
   return (
     <Sidebar
       collapsible="none"
@@ -75,7 +78,7 @@ export function SidebarRight({
         <div className="w-full flex justify-center items-center mt-4">
         <MainPopover />
         </div>
-        <Spaces spaces={data.spaces} />
+        <Spaces />
         </DataProvider>
       </SidebarContent>
     </Sidebar>

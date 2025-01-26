@@ -126,15 +126,18 @@ export async function saveProject({
     name,
     creatorName,
     websiteLink,
+    selectedSpaces,
     userId
 }: {
     id: string;
     name: string;
     creatorName: string;
     websiteLink: string;
+    selectedSpaces: string[];
     userId: string;
 }){
     try {
+        const spacesToSave = selectedSpaces.length > 0 ? selectedSpaces : ["All"];
         const res = await prisma.project.create({
             data: {
                 id,
@@ -142,9 +145,17 @@ export async function saveProject({
                 creatorName,
                 websiteLink,
                 createdAt: new Date(),
-                userId
+                userId,
+                space: {
+                    // @ts-ignore
+                    connect: spacesToSave.map((spaceId) => {
+                        return { id: spaceId };
+                    })
+                },
             }
         })
+
+        return res;
     } catch (error) {
         console.log("Failed to save project in DB", error);
         throw error;
@@ -181,12 +192,12 @@ export async function deleteProject({websiteLink}: {websiteLink: string}){
     }
 }
 
-export async function saveSpace({name, icon, userId}: {name: string, icon: string, userId: string}){
+export async function saveSpace({spaceName, spaceIcon, userId}: {spaceName: string, spaceIcon: string, userId: string}){
     try{
         const res = await prisma.spaces.create({
             data: {
-                name,
-                icon,
+                name: spaceName,
+                icon: spaceIcon,
                 createdAt: new Date(),
                 userId
             }
@@ -194,5 +205,19 @@ export async function saveSpace({name, icon, userId}: {name: string, icon: strin
     } catch(error){
         console.log("saving space error")
         throw error;
+    }
+}
+
+export async function getAllSpaces({userId}:any){
+    try {
+        const res = await prisma.spaces.findMany({
+            where: {
+                userId: userId
+            }
+        })
+        console.log("spce data recived", res);
+        return res;
+    } catch (error) {
+        console.log("error fetching all spaces", error);
     }
 }

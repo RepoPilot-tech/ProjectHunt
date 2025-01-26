@@ -27,22 +27,16 @@ export function Chat({
         window.history.replaceState({}, "", `/chat/${id}`);
       },
     });
-    // alert("check console")
-    // console.log(messages);
 
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
-
   return (
-    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh overflow-hidden border-2 rounded-3xl">
-      <div className="flex flex-col justify-between w-full overflow-hidden items-center gap-4">
+    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh border-2 rounded-3xl">
+      <div className="flex flex-col justify-between w-full items-center gap-4">
         <div
           className={`flex flex-col gap-4 h-full items-center ${messages.length === 0 ? "max-w-[60vw]" : "max-w-[43vw]"} overflow-hidden overflow-y-scroll`}
         >
-          {/* max-w-[60vw] */}
-          {/* <Overview /> */}
           {messages.length === 0 && <Overview />}
 
           {messages.map((message) => (
@@ -51,7 +45,6 @@ export function Chat({
               chatId={id}
               role={message.role}
               content={message.content}
-              attachments={message.experimental_attachments}
               toolInvocations={message.toolInvocations}
             />
           ))}
@@ -64,14 +57,10 @@ export function Chat({
             handleSubmit={handleSubmit}
             isLoading={isLoading}
             stop={stop}
-            attachments={attachments}
-            setAttachments={setAttachments}
             messages={messages}
             append={append}
           />
         </form>
-
-
       </div>
     </div>
   );

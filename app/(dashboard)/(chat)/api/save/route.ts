@@ -8,7 +8,7 @@ import { saveProject } from '@/queries/queries';
 
 export async function POST(req: Request) {
     try {
-      const { name, creatorName, websiteLink, description } = await req.json();
+      const { name, creatorName, websiteLink, description, selectedSpaces } = await req.json();
       const session = await auth();
       if (!session) {
         return new Response("Unauthorized", { status: 401 });
@@ -21,8 +21,8 @@ export async function POST(req: Request) {
           name,
           creatorName,
           websiteLink,
-          description,
-          userId: session.user.id, // Assuming the session contains user details
+          selectedSpaces,
+          userId: session.user.id, 
         });
       } catch (error) {
         console.log('Error saving project:', error);

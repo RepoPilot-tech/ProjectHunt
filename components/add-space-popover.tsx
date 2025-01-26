@@ -9,11 +9,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import axios from 'axios'
 import { DataContext } from "../provider/spaceContext";
+import { toast } from 'sonner'
 
 export default function AddSpacePopover() {
   const [spaceName, setSpaceName] = React.useState('')
   const [spaceIcon, setSpaceIcon] = React.useState('')
-  const [selectedProject, setSelectedProject] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
   const context = React.useContext(DataContext);
@@ -26,14 +26,16 @@ export default function AddSpacePopover() {
   async function addSpace(e: React.FormEvent){
     e.preventDefault()
     setLoading(true)
+    console.log("form space data", spaceName, spaceIcon);
     try{
-      const newSpace = { name: spaceName, icon: spaceIcon };
-      addData(newSpace);
+      addData({spaceName, spaceIcon});
       setSpaceName("");
       setSpaceIcon("");
       console.log('save success');
+      toast.success("Space Created Successfully")
     }catch(e){
       console.log("error occured while creating the space", e)
+      toast.error("Space Created Successfully")
     }finally{
       setLoading(false)
     }
@@ -64,19 +66,6 @@ export default function AddSpacePopover() {
               placeholder="Paste SVG code here"
             />
           </div>
-          {/* <div className="space-y-2">
-            <Label htmlFor="project">Add Project to Space</Label>
-            <Select onValueChange={setSelectedProject}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a project" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="project1">Project 1</SelectItem>
-                <SelectItem value="project2">Project 2</SelectItem>
-                <SelectItem value="project3">Project 3</SelectItem>
-              </SelectContent>
-            </Select>
-          </div> */}
           <Button type="submit" className="w-full" disabled={loading}>{loading ? "Saving..." : "Add Space"}</Button>
         </form>
       </PopoverContent>

@@ -20,6 +20,19 @@ const config: Config = {
   		]
   	},
   	extend: {
+		animation: {
+			'blink': 'blink 2s ease-in-out infinite'
+		  },
+	
+		  keyframes: {
+			blink: {
+			  '0%': { backgroundColor: '#22cc3f' },
+	
+			  '50%': { backgroundColor: 'transparent' },
+	
+			  '100%': { backgroundColor: '#22cc3f' }
+			}
+		  },	
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

@@ -33,9 +33,9 @@ model Project {
   description  String?
   createdAt    DateTime @default(now())
   userId       String
-  spaceId      String?
+  spaceId      String 
   user         User @relation(fields: [userId], references: [id])
-  space        Spaces? @relation(fields: [spaceId], references: [id])
+  spaces       ProjectSpace[]
 }
 
 model Spaces {
@@ -44,6 +44,16 @@ model Spaces {
   icon      String
   createdAt DateTime @default(now())
   userId    String
+  isDefault Boolean @default(false) @unique
   user      User @relation(fields: [userId], references: [id])
-  project   Project[]
+  projects   ProjectSpace[]
+}
+
+model ProjectSpace {
+  projectId   String
+  spaceId     String
+  createdAt   DateTime   @default(now())
+  project     Project   @relation(fields: [projectId], references: [id])
+  space     Spaces   @relation(fields: [spaceId], references: [id])
+  @@id([projectId, spaceId])
 }

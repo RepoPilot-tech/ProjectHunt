@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Chat } from "@/components/custom/chat";
 import { generateUUID } from "@/lib/utils";
 

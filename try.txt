@@ -21,3 +21,10 @@
 --> login with google and github
 
 --> project save functionality and custom save projects page
+
+
+
+
+////////////////////////////////
+--> Spaces are being saved and updated successfully
+--> show only saved spaces in project save button and save the project in those spaces and by default save the projects in ALl if no space is being selected

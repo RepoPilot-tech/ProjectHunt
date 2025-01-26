@@ -22,21 +22,17 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [selectedSpaces, setSelectedSpaces] = useState<string[]>([])
+  // const [toggle, setToggle] = useState(false);
   const spaces = ['web3', 'web dev', 'job', 'AI', 'mobile', 'design'];
 
     useEffect(() => {
         async function fetchMicrolinkImage(link: string) {
-          // const cachedUrl = localStorage.getItem(link);
-          // if(cachedUrl){
-          //   setImageUrl(cachedUrl);
-          //   return;
-          // }
           try {
             const data = await fetch(`https://api.apiflash.com/v1/urltoimage?access_key=8fa6095fa8b84108aa0865515accbb47&wait_until=page_loaded&url=${link}`)
             console.log(data);
             const imageUrl = data.url;
             setImageUrl(imageUrl);
-            // localStorage.setItem(link, imageUrl)
             console.log("data now1", data.url)
           } catch (error) {
             console.error('Error fetching image:', error);
@@ -53,8 +49,9 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
     console.log("its happenning")
     try {
       if(isChecked == false){
+        console.log(name, creatorName, websiteLink, description, selectedSpaces)
         const res = await axios.post("/api/save", {
-        name, creatorName, websiteLink, description
+        name, creatorName, websiteLink, description, selectedSpaces
       });
       console.log('Server Response:', res.data);
     } else {
@@ -74,7 +71,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
 
   return (
     <>
-      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-gray-50 dark:text-black flex overflow-hidden pr-0 pl-3">
+      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-gray-50 dark:text-black flex pr-0 pl-3">
         <div className="z-20 h-full flex flex-col justify-between gap-3 bg-gray-50 py-3 w-full">
           <div className="flex flex-col gap-1">
           <h1 className="text-xl font-sans font-semibold">{name}</h1>
@@ -88,7 +85,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
           {/* <h1>{description}</h1> */}
         </div>
         <div className="">
-        <Checkbox spaces={spaces} isChecked={isChecked} onClick={SaveProject} />
+        <Checkbox spaces={spaces} isChecked={isChecked} onClick={SaveProject} loading={loading} setSelectedSpaces={setSelectedSpaces} selectedSpaces={selectedSpaces} />
         </div>
         <div className="rounded-tl-md overflow-hidden z-30 absolute w-[12vw] h-fit hover:shadow-lg bottom-0 right-0">
         {imageUrl ? (
