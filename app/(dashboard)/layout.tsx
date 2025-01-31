@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import { SidebarLeft } from "@/components/sidebar-left";
 import { SidebarRight } from "@/components/sidebar-right";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
+import { DataProvider } from "@/provider/spaceContext";
 
 import { auth } from "../(auth)/auth";
 
@@ -21,11 +21,13 @@ const Layout = async ({ children }: {children: React.ReactNode}) => {
   return (
     <SidebarProvider>
     <main className='flex gap-2 w-screen'>
+      <DataProvider>
               <SidebarLeft user={session?.user} />
                   <div className='w-full'>
                       {children}
                   </div>
               <SidebarRight user={session?.user} />
+            </DataProvider>
       </main>
       </SidebarProvider>
   );

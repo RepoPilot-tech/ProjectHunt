@@ -17,22 +17,21 @@ export async function getUser(email: string){
     }
 }
 
-
 export async function createUser(email: string, password: string){
     let salt = genSaltSync(10);
     let hash = hashSync(password, salt);
+    // saveSpace({"All", "👑"});
 
     try{
         const res = await prisma.user.create({data: {email, password:hash}})
-
         console.log("user created", res);
+        saveSpace({spaceName: "All",spaceIcon: "👑",userId: res.id});
         return res
     } catch(error){
         console.log("error creating User");
         throw error;
     }
 }
-
 
 export async function saveChat({
     id,
@@ -127,39 +126,63 @@ export async function saveProject({
     creatorName,
     websiteLink,
     selectedSpaces,
-    userId
-}: {
-    id: string;
-    name: string;
-    creatorName: string;
-    websiteLink: string;
-    selectedSpaces: string[];
-    userId: string;
-}){
-    try {
-        const spacesToSave = selectedSpaces.length > 0 ? selectedSpaces : ["All"];
-        const res = await prisma.project.create({
-            data: {
-                id,
-                name,
-                creatorName,
-                websiteLink,
-                createdAt: new Date(),
-                userId,
-                space: {
-                    // @ts-ignore
-                    connect: spacesToSave.map((spaceId) => {
-                        return { id: spaceId };
-                    })
-                },
-            }
-        })
+    userId}: any){
+        if(selectedSpaces.length === 0){
+            try {
+                const defaultSpace = await prisma.spaces.findFirst({
+                    where: {
+                        name: "All",
+                        userId: userId,
+                    }
+                })
+                if (!defaultSpace) {
+                    throw new Error('No default "[All]" space found for the user.');
+                }
 
-        return res;
-    } catch (error) {
-        console.log("Failed to save project in DB", error);
-        throw error;
-    }
+                selectedSpaces = [defaultSpace];
+                console.log("Using the default '[All]' space", selectedSpaces);
+            } catch (error) {
+                console.log("Error fetching default space", error);
+                return;
+            }
+            // selectedSpaces = [{id: "28881943-c6c0-4eb7-a4a3-5c446ed7c76a"}]
+            // console.log("this one is by default ---------", selectedSpaces);
+        }
+
+        const spaceNames = selectedSpaces.map(space => space.id);
+        console.log("from space name", spaceNames)
+        try{
+            const spaces = await prisma.spaces.findMany({
+                where: {
+                    name: {in: spaceNames.id},
+                    userId: userId,
+                }
+            });
+            
+            if(spaces.length === 0){
+                throw new Error("No Matching spaces found for the given user");
+            }
+
+            const project = await prisma.project.create({
+                data: {
+                    name: name,
+                    creatorName: creatorName,
+                    websiteLink: websiteLink,
+                }
+            });
+
+            await prisma.projectSpace.createMany({
+                data: spaces.map(space => ({
+                    projectId: project.id,
+                    spaceId: space.id
+                }))
+            });
+
+            console.log("Project Successfully linked to spaces: ", project);
+            return project;
+        } catch(e){
+            console.log("Error creating projectttt", e);
+        }
 }
 
 export async function getProjectByLink({websiteLink}: {websiteLink: string}){

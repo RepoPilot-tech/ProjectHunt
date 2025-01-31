@@ -1,5 +1,6 @@
 
 import { Plus, PlusIcon } from "lucide-react"
+import React from "react"
 
 import { NavUser } from "@/components/nav-user"
 import { Spaces } from "@/components/Spaces"
@@ -20,39 +21,38 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar"
-import { User } from "@/db/schema"
 import {DataProvider } from "@/provider/spaceContext"
 
 import MainPopover from "./main-popover"
 import { ProjectShowCase } from "./projectHunt/ProjectShowCase"
-import React from "react"
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  spaces: [
-    {
-      name: "Web 3",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "Web Dev",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Job",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
-  ],
-}
+
+// const data = {
+//   user: {
+//     name: "shadcn",
+//     email: "m@example.com",
+//     avatar: "/avatars/shadcn.jpg",
+//   },
+//   spaces: [
+//     {
+//       name: "Web 3",
+//       items: ["Personal", "Work", "Family"],
+//     },
+//     {
+//       name: "Web Dev",
+//       items: ["Holidays", "Birthdays"],
+//     },
+//     {
+//       name: "Job",
+//       items: ["Travel", "Reminders", "Deadlines"],
+//     },
+//   ],
+// }
 
 
 export function SidebarRight({
   user
-}: {user: User | undefined}) {
+}: {user: any}) {
 
   return (
     <Sidebar

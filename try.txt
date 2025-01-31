@@ -14,17 +14,17 @@
 
 --> make sure all functionalities work fine
 
---> show projects from chat into wobble ui component - Problem but will try
-
 --> Landing page
 
 --> login with google and github
 
 --> project save functionality and custom save projects page
 
+--> Spaces are being saved and updated successfully - Done
 
-
+--> show only saved spaces in project save button and save the project in those spaces and by default save the projects in ALl if no space is being selected - DONE
 
 ////////////////////////////////
---> Spaces are being saved and updated successfully
---> show only saved spaces in project save button and save the project in those spaces and by default save the projects in ALl if no space is being selected
+--> Always highlight All Button in save spaces checkbox
+
+--> Add Loading Animation in both spaces section and checkbox spaces loading section

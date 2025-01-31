@@ -38,7 +38,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick, spaces, loading
                   : 'bg-gray-200 text-gray-700'
               } transition-colors duration-200`}
             >
-              {space}
+              {space.name}
             </button>
           ))}
         </div>

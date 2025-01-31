@@ -4,12 +4,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { ArrowRight, CornerDownRight, RotateCw } from 'lucide-react'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import image from '@/public/images/image.png';
 import { Badge } from "./badge";
 import Checkbox from "./checkbox";
 import Link from "next/link";
+import { DataContext } from "@/provider/spaceContext";
+import { toast } from "sonner";
 
 interface Card {
   name: String,
@@ -23,10 +25,31 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isChecked, setIsChecked] = useState(false);
   const [selectedSpaces, setSelectedSpaces] = useState<string[]>([])
-  // const [toggle, setToggle] = useState(false);
-  const spaces = ['web3', 'web dev', 'job', 'AI', 'mobile', 'design'];
+  const [spacesData, setSpacesData] = React.useState([]);
+  const context = React.useContext(DataContext);
 
-    useEffect(() => {
+  if(!context){
+    throw new Error("DataInput must be used within a DataProvider");
+  }
+  const {data} = context;
+  console.log("data", data);
+
+  React.useEffect(() => {
+    console.log("calingg.....")
+    try {
+      async function fetchData() {
+        const res = await axios.get("/api/space/fetchSpaces")
+        console.log("rs from get", res.data.map(({id, name}) => ({id, name})));
+        setSpacesData(res.data.map(({id, name}) => ({id, name})));
+      }
+      fetchData();
+    } catch (error) {
+      toast.error("errro fetch spaces");
+    }
+  }, [])
+  console.log("project spaces", spacesData);
+
+  useEffect(() => {
         async function fetchMicrolinkImage(link: string) {
           try {
             const data = await fetch(`https://api.apiflash.com/v1/urltoimage?access_key=8fa6095fa8b84108aa0865515accbb47&wait_until=page_loaded&url=${link}`)
@@ -42,14 +65,14 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
         if (websiteLink) {
             fetchMicrolinkImage(websiteLink);
           }
-      }, [websiteLink]);
+  }, [websiteLink]);
 
   async function SaveProject() {
     setLoading(true);
     console.log("its happenning")
     try {
       if(isChecked == false){
-        console.log(name, creatorName, websiteLink, description, selectedSpaces)
+        console.log("here we are saving your project",name, creatorName, websiteLink, description, selectedSpaces)
         const res = await axios.post("/api/save", {
         name, creatorName, websiteLink, description, selectedSpaces
       });
@@ -77,6 +100,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
           <h1 className="text-xl font-sans font-semibold">{name}</h1>
           <div className="flex gap-1 items-center">
           <CornerDownRight size={20} />
+          {loading ? "saving" : "nthg"}
           <Badge className="w-fit mt-1">By {creatorName}</Badge>
           </div>
           </div>
@@ -85,7 +109,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
           {/* <h1>{description}</h1> */}
         </div>
         <div className="">
-        <Checkbox spaces={spaces} isChecked={isChecked} onClick={SaveProject} loading={loading} setSelectedSpaces={setSelectedSpaces} selectedSpaces={selectedSpaces} />
+        <Checkbox spaces={spacesData} isChecked={isChecked} onClick={SaveProject} loading={loading} setSelectedSpaces={setSelectedSpaces} selectedSpaces={selectedSpaces} />
         </div>
         <div className="rounded-tl-md overflow-hidden z-30 absolute w-[12vw] h-fit hover:shadow-lg bottom-0 right-0">
         {imageUrl ? (

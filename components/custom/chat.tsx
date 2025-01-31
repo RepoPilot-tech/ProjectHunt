@@ -65,3 +65,14 @@ export function Chat({
     </div>
   );
 }
+
+
+// async function spaces(){
+//   setLoading(true);
+//   console.log("fetching Spaces");
+//   try{
+//     const res = await axios.get("/api/fetchSpaces")
+//   } catch(e){
+//     console.log("error fetching spaces for project");
+//   }
+// }

@@ -13,8 +13,13 @@ export async function POST(req: Request) {
       if (!session) {
         return new Response("Unauthorized", { status: 401 });
       }
-  
+      
+      console.log("setting selected spaces", selectedSpaces);
+      if(selectedSpaces.length === 0){
+        console.log("no spaces selected")
+      }
       // Call the saveProject function to save the project
+      console.log("hum yha phatenge", name, selectedSpaces, session?.user?.id);
       try {
         const project = await saveProject({
           id: crypto.randomUUID(),
@@ -22,7 +27,7 @@ export async function POST(req: Request) {
           creatorName,
           websiteLink,
           selectedSpaces,
-          userId: session.user.id, 
+          userId: session?.user?.id, 
         });
       } catch (error) {
         console.log('Error saving project:', error);
