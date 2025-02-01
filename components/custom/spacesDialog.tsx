@@ -1,18 +1,19 @@
 "use client"
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
-import axios from 'axios'
 import { ExternalLink, Link } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
 import { Button } from '../ui/button'
 import { DialogHeader } from '../ui/dialog'
 import Mansorygrid from '../ui/mansory-grid'
+import axios from 'axios'
 
 
 
 const SpacesDialog = ({details}) => {
     const [spaceData, setSpacesData] = useState([])
     const [kill, setKill] = useState(false)
+    const [length, setLength] = useState(true);
     console.log("space name is this", details[1])
     const data = [
         {
@@ -72,6 +73,7 @@ const SpacesDialog = ({details}) => {
           }
     ]
 
+
     // useEffect(() => {
     //   console.log("I am going")
     //     try {
@@ -86,6 +88,8 @@ const SpacesDialog = ({details}) => {
     //     }
     //     // console.log("I am going")
     // }, [kill])
+
+
     const fetchData = async() => {
       try {
         console.log("i am here");
@@ -97,16 +101,23 @@ const SpacesDialog = ({details}) => {
       }
     }
 
-    async function fetch(){
-      setKill(!kill)
-      const res = await fetchData()
-      console.log("from space dialog", res)
-    }
+    useEffect(() => {     
+        const fetch = async() => {
+          try {
+            console.log("Fetching data...");
+            const res = await fetchData(); // Call the fetchData function
+            console.log("Data from space dialog:", res);
+          } catch (error) {
+            console.log("Error from space dialog:", error);
+          }
+        }
+        fetch();
+  }, [details[1]])
 
     console.log("hum nhi sudhrene",spaceData);
   return (
     <div className='size-full pt-8 pb-2 text-3xl flex flex-col gap-4 overflow-y-scroll text-white'>
-      <Button onClick={fetch}>kill it</Button>
+      {/* <Button onClick={fetch}>kill it</Button> */}
         <div className='px-8'>
             {details[0]} Icon
         </div>
@@ -114,8 +125,8 @@ const SpacesDialog = ({details}) => {
       <div className="w-full h-fit overflow-y-scroll columns-2xs px-6">
         {spaceData.map((project, i) => (
           // ${project.image ? "min-h-[30vh]" : "min-h-[20vh]"}
-            <div key={i} className={`w-[25vw] mt-4 min-h-[30vh] relative`}>
-            <Mansorygrid name={project.name} website={project.websiteLink} builder={project.creatorName} image={project?.image} />
+            <div key={i} className={`w-[25vw] mt-4 ${length ? "min-h-[30vh]" : "min-h-[20vh]"} relative`}>
+            <Mansorygrid name={project.name} website={project.websiteLink} builder={project.creatorName} image={project?.image} setLength={setLength} length={length} />
             </div>
         ))}
       </div>

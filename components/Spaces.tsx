@@ -71,8 +71,10 @@ export function Spaces() {
         <SidebarGroup className="p-2">
             <GlareCard onClick={() => showpopOver(space.name, space.id)} name={space.name} icon={space.icon} num={index = index+1} />
         </SidebarGroup>
-            <div className={`absolute top-1/2 left-1/2  ${popOver ? "hidden" : "" } translate-x-[-50%] translate-y-[-50%] w-[80vw] h-[80vh] bg-gray-400 rounded-2xl z-[80]`}>
+        <div className={`fixed inset-0 z-50 bg-black/50 ${popOver ? "hidden" : "" } data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0`}>
+            <div className={`fixed top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] w-[80vw] h-[80vh] bg-[#18181B] rounded-2xl z-[80]`}>
               <SpacesDialog details={openSpace} />
+            </div>
             </div>
       </React.Fragment>
       )) : data.map((space, index) => (
