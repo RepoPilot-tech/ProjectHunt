@@ -35,7 +35,7 @@ model Project {
 }
 
 model Spaces {
-  id        String  @id @default(uuid())
+  id        String  @id @default(uuid())  @unique
   name      String
   icon      String
   createdAt DateTime @default(now())

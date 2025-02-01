@@ -14,12 +14,12 @@ export async function POST(req: Request) {
         return new Response("Unauthorized", { status: 401 });
       }
       
-      console.log("setting selected spaces", selectedSpaces);
+      // console.log("setting selected spaces", selectedSpaces);
       if(selectedSpaces.length === 0){
         console.log("no spaces selected")
       }
       // Call the saveProject function to save the project
-      console.log("hum yha phatenge", name, selectedSpaces, session?.user?.id);
+      // console.log("hum yha phatenge", name, selectedSpaces, session?.user?.id);
       try {
         const project = await saveProject({
           id: crypto.randomUUID(),

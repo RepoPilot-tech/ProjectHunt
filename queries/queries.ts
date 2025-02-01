@@ -9,7 +9,7 @@ export async function getUser(email: string){
         const res = await prisma.user.findFirst({
             where: {email}
         })
-        console.log("user found", res);
+        // console.log("user found", res);
         return res;
     } catch(error){
         console.log("error fetching user");
@@ -24,7 +24,7 @@ export async function createUser(email: string, password: string){
 
     try{
         const res = await prisma.user.create({data: {email, password:hash}})
-        console.log("user created", res);
+        // console.log("user created", res);
         saveSpace({spaceName: "All",spaceIcon: "👑",userId: res.id});
         return res
     } catch(error){
@@ -112,7 +112,7 @@ export async function getChatById({id}: {id: string}){
             }
         })
 
-        console.log("selected chat", selectedChat);
+        // console.log("selected chat", selectedChat);
         return selectedChat;
     } catch (error) {
         console.log("Failed to get chat by id from database")
@@ -140,7 +140,7 @@ export async function saveProject({
                 }
 
                 selectedSpaces = [defaultSpace];
-                console.log("Using the default '[All]' space", selectedSpaces);
+                // console.log("Using the default '[All]' space", selectedSpaces);
             } catch (error) {
                 console.log("Error fetching default space", error);
                 return;
@@ -150,7 +150,7 @@ export async function saveProject({
         }
 
         const spaceNames = selectedSpaces.map(space => space.id);
-        console.log("from space name", spaceNames)
+        // console.log("from space name", spaceNames)
         try{
             const spaces = await prisma.spaces.findMany({
                 where: {
@@ -178,7 +178,7 @@ export async function saveProject({
                 }))
             });
 
-            console.log("Project Successfully linked to spaces: ", project);
+            // console.log("Project Successfully linked to spaces: ", project);
             return project;
         } catch(e){
             console.log("Error creating projectttt", e);
@@ -238,9 +238,31 @@ export async function getAllSpaces({userId}:any){
                 userId: userId
             }
         })
-        console.log("spce data recived", res);
+        // console.log("spce data recived", res);
         return res;
     } catch (error) {
         console.log("error fetching all spaces", error);
+    }
+}
+
+export async function getAllSpaceProjects({userId, id}){
+    try {
+      const res = await prisma.spaces.findUnique({
+        where: {
+            id: id,
+            userId: userId, // Ensures the space belongs to the specific user
+          },
+          include: {
+            projectSpaces: {
+                include: {
+                    project: true
+                }
+            }
+          }
+      })
+      console.log("these are the spaces projects", res?.projectSpaces);
+      return res?.projectSpaces;
+    } catch (error) {
+        console.log("error fetching saved Projects in space", error)
     }
 }

@@ -2,9 +2,9 @@
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
 
-export const GlareCard = ({name, icon, num}) => {
+export const GlareCard = ({name, icon, num, onClick}) => {
   return (
-    <div className="relative w-full bg-white text-black rounded-[2.5em] p-4 transition-transform duration-400 ease-in-out hover:cursor-pointer hover:scale-[0.97] active:scale-[0.9]">
+    <div onClick={onClick} className="relative w-full bg-white text-black rounded-[2.5em] p-4 transition-transform duration-400 ease-in-out hover:cursor-pointer hover:scale-[0.97] active:scale-[0.9]">
       <div className="flex flex-col justify-between gap-20 h-full transition-transform duration-400 ease-in-out hover:scale-[0.96]">
         <div className="flex justify-between">
           <span className="font-bold">{icon}</span>

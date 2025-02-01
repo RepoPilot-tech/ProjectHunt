@@ -23,11 +23,11 @@ export const DataProvider: React.FC<DataProviderProps> = ({ children }) => {
   const [data, setData] = useState<Space[]>([]); 
 
   const addData = async ({spaceName, spaceIcon}:Space) => {
-        console.log("Adding space...")
-        console.log("from context", spaceName, spaceIcon)
+        // console.log("Adding space...")
+        // console.log("from context", spaceName, spaceIcon)
         try {
           const res = await axios.post("/api/space/addSpace", {spaceName, spaceIcon});
-          console.log('Server Response for spaces:', res.data);
+          // console.log('Server Response for spaces:', res.data);
           const newSpaces = await fetchSpaces();
           setData(newSpaces);
         } catch (error) {

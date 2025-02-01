@@ -26,7 +26,7 @@ export async function DELETE(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    console.log("reached here", websiteLink);
+    // console.log("reached here", websiteLink);
     await deleteProject({ websiteLink });
 
     return new Response("Project deleted", { status: 200 });

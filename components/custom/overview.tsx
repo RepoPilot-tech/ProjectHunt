@@ -29,7 +29,7 @@ export const Overview = () => {
         };
         localStorage.setItem("cachedProjects", JSON.stringify(cache));
         setProjects(parsedProjects);
-        console.log("Parsed Projects:", parsedProjects);
+        // console.log("Parsed Projects:", parsedProjects);
       } catch (error) {
         console.error("Error fetching or parsing data:", error);
       }
@@ -44,7 +44,7 @@ export const Overview = () => {
         const now = Date.now();
 
         if (now - timestamp < twoDaysInMilliseconds) {
-          console.log("Using Cached Projects:", data);
+          // console.log("Using Cached Projects:", data);
           setProjects(data);
           return true;
         }

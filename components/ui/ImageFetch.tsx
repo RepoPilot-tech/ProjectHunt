@@ -22,7 +22,7 @@ const ImageFetch: React.FC<ImageProps> = ({imageLink}) => {
             const imageUrl = data?.data?.screenshot?.url;
             setImageUrl(imageUrl);
             localStorage.setItem(link, imageUrl)
-            console.log("data now", data.data.screenshot.url)
+            // console.log("data now", data.data.screenshot.url)
           } catch (error) {
             console.error('Error fetching image:', error);
           }

@@ -49,6 +49,7 @@
     "next-themes": "^0.3.0",
     "postgres": "^3.4.4",
     "prisma": "^6.2.1",
+    "puppeteer": "^24.1.1",
     "react": "19.0.0-rc-7771d3a7-20240827",
     "react-day-picker": "8.10.1",
     "react-dom": "19.0.0-rc-7771d3a7-20240827",

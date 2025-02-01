@@ -100,7 +100,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
           <h1 className="text-xl font-sans font-semibold">{name}</h1>
           <div className="flex gap-1 items-center">
           <CornerDownRight size={20} />
-          {loading ? "saving" : "nthg"}
+          {loading && "saving"}
           <Badge className="w-fit mt-1">By {creatorName}</Badge>
           </div>
           </div>
