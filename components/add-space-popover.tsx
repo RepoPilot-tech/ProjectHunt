@@ -26,15 +26,12 @@ export default function AddSpacePopover() {
   async function addSpace(e: React.FormEvent){
     e.preventDefault()
     setLoading(true)
-    // console.log("form space data", spaceName, spaceIcon);
     try{
       addData({spaceName, spaceIcon});
       setSpaceName("");
       setSpaceIcon("");
-      // console.log('save success');
       toast.success("Space Created Successfully")
     }catch(e){
-      // console.log("error occured while creating the space", e)
       toast.error("Space Created Successfully")
     }finally{
       setLoading(false)

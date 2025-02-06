@@ -42,8 +42,6 @@ const Mansorygrid = ({ name, website, builder, image, setLength, length }) => {
 
   const color = ["bg-cyan-700", "bg-purple-700", "bg-sky-600", "bg-stone-400", "bg-slate-400", "bg-indigo-800"]
 
-  // bg-cyan-700 bg-purple-700
-// bg-slate-400 bg-stone-400 bg-sky-600
   return (
     <WobbleCard containerClassName={'w-full h-full'} className={`${previewImage ? "min-h-[30vh]" : "min-h-[20vh]"} ${color[Math.floor(Math.random() * 7)]} w-full`}>
       <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-2xl font-semibold tracking-[-0.015em] text-white">

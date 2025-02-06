@@ -6,7 +6,7 @@ import { getAllSpaces, saveSpace } from '@/queries/queries';
 export async function POST(request: Request) {
     try {
       const { spaceName, spaceIcon } = await request.json();
-      console.log("inside route.ts", spaceName, spaceIcon);
+      // console.log("inside route.ts", spaceName, spaceIcon);
       if (!spaceName || !spaceIcon) {
         return new Response("Missing required fields", { status: 400 });
       }

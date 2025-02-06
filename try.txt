@@ -26,16 +26,18 @@
 
 ////////////////////////////////
 
---> when click on spaces show the projects saved in spaces [ Main work ]
+--> when click on spaces show the projects saved in spaces [ Main work ] [ Done ]
 
---> Spaces UI Better
+--> Spaces UI Better - inside space popover UI better [set all loading states and refresh button in popover]
+
+--> when scrape preview fails show bad status instead of bad log in console log
+
+--> Tab for spaces, show spaces when click on spaces manage Spaces 
 
 --> Logout and Login Page re design
 
 --> Fonts
 
---> Tab for spaces, show spaces when click on spaces manage Spaces
-
---> Always highlight All Button in save spaces checkbox
+--> Always highlight All Button in save spaces checkbox 
 
 --> Add Loading Animation in both spaces section and checkbox spaces loading section

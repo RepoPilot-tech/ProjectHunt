@@ -92,12 +92,15 @@ const SpacesDialog = ({details}) => {
 
     const fetchData = async() => {
       try {
-        console.log("i am here");
+        // console.log("i am here");
         const res = await axios.get(`/api/space/spaceProjects?id=${details[1]}`);
-        console.log("mai aa gya",  res.data.map(item => item.project));
+        // console.log("mai aa gya",  res.data.map(item => item.project));
         setSpacesData(res.data.map(item => item.project));
       } catch (error) {
-        console.log("phat bosdk", error)
+        console.log("error while fetching data", error)
+        return new Response("An error occurred while fetching data", {
+          status: 500,
+        });
       }
     }
 

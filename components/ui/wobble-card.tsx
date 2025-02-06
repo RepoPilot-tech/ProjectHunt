@@ -37,7 +37,7 @@ export const WobbleCard = ({
         transition: "transform 0.1s ease-out",
       }}
       className={cn(
-        "w-full bg-indigo-800  relative rounded-2xl overflow-hidden",
+        "w-full relative rounded-2xl overflow-hidden",
         containerClassName
       )}
     >

@@ -13,7 +13,7 @@ export async function POST(req, res) {
         const result = await model.generateContent(prompt)
         const response = result.response;
         const output = response.text();
-        console.log("out genai", output);
+        // console.log("out genai", output);
         return NextResponse.json({ output: output })
     } catch (error) {
         console.error(error)

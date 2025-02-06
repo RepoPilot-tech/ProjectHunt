@@ -12,8 +12,10 @@ export async function getUser(email: string){
         // console.log("user found", res);
         return res;
     } catch(error){
-        console.log("error fetching user");
-        throw error;
+        // console.log("error fetching user");
+        return new Response("error fetching user", {
+            status: 500,
+          });
     }
 }
 
@@ -28,8 +30,10 @@ export async function createUser(email: string, password: string){
         saveSpace({spaceName: "All",spaceIcon: "👑",userId: res.id});
         return res
     } catch(error){
-        console.log("error creating User");
-        throw error;
+        // console.log("error creating User");
+        return new Response("error creating User", {
+            status: 500,
+          });
     }
 }
 
@@ -70,8 +74,10 @@ export async function saveChat({
         });
 
     } catch (error) {
-        console.log("while saving chat", error)
-        throw error;
+        // console.log("while saving chat", error)
+        return new Response("while saving chat", {
+            status: 500,
+          });
     }
 }
 
@@ -85,8 +91,10 @@ export async function deleteChatById({id}: {id: string}){
     
         return res;
     } catch (error) {
-        console.log("failed to delete chat by id from db");
-        throw error;
+        // console.log("failed to delete chat by id from db");
+        return new Response("failed to delete chat by id from db", {
+            status: 500,
+          });
     }
 }
 
@@ -99,8 +107,10 @@ export async function getChatsByUserId({id}: {id: string}){
         })
         return res;
     } catch (error) {
-        console.log("Failed to get chats by user from db");
-        throw error;
+        // console.log("Failed to get chats by user from db");
+        return new Response("Failed to get chats by user from db", {
+            status: 500,
+          });
     }
 }
 
@@ -115,8 +125,10 @@ export async function getChatById({id}: {id: string}){
         // console.log("selected chat", selectedChat);
         return selectedChat;
     } catch (error) {
-        console.log("Failed to get chat by id from database")
-        throw error;
+        // console.log("Failed to get chat by id from database")
+        return new Response("Failed to get chat by id from database", {
+            status: 500,
+          });;
     }
 }
 
@@ -142,8 +154,10 @@ export async function saveProject({
                 selectedSpaces = [defaultSpace];
                 // console.log("Using the default '[All]' space", selectedSpaces);
             } catch (error) {
-                console.log("Error fetching default space", error);
-                return;
+                // console.log("Error fetching default space", error);
+                return new Response("An error occurred while processing your request", {
+                    status: 500,
+                  });
             }
             // selectedSpaces = [{id: "28881943-c6c0-4eb7-a4a3-5c446ed7c76a"}]
             // console.log("this one is by default ---------", selectedSpaces);
@@ -181,7 +195,9 @@ export async function saveProject({
             // console.log("Project Successfully linked to spaces: ", project);
             return project;
         } catch(e){
-            console.log("Error creating projectttt", e);
+            return new Response("An error occurred while processing your request", {
+                status: 500,
+              });
         }
 }
 
@@ -195,7 +211,7 @@ export async function getProjectByLink({websiteLink}: {websiteLink: string}){
 
         return res;
     } catch (error) {
-        console.log("error fetch project by websitelink")
+        // console.log("error fetch project by websitelink")
         throw error;
     }
 }
@@ -210,7 +226,7 @@ export async function deleteProject({websiteLink}: {websiteLink: string}){
 
         return res;
     } catch (error) {
-        console.log("Delete Project");
+        // console.log("Delete Project");
         throw error;
     }
 }
@@ -226,7 +242,7 @@ export async function saveSpace({spaceName, spaceIcon, userId}: {spaceName: stri
             }
         })
     } catch(error){
-        console.log("saving space error")
+        // console.log("saving space error")
         throw error;
     }
 }
@@ -241,7 +257,10 @@ export async function getAllSpaces({userId}:any){
         // console.log("spce data recived", res);
         return res;
     } catch (error) {
-        console.log("error fetching all spaces", error);
+        // console.log("error fetching all spaces", error);
+        return new Response("An error occurred while processing your request", {
+            status: 500,
+          });
     }
 }
 
@@ -260,9 +279,31 @@ export async function getAllSpaceProjects({userId, id}){
             }
           }
       })
-      console.log("these are the spaces projects", res?.projectSpaces);
+    //   console.log("these are the spaces projects", res?.projectSpaces);
       return res?.projectSpaces;
     } catch (error) {
-        console.log("error fetching saved Projects in space", error)
+        return new Response("An error occurred while processing your request", {
+            status: 500,
+          });
+        // console.log("error fetching saved Projects in space", error)
+    }
+}
+
+export async function deleteSpace({ spaceId, userId }) {
+    try {
+        console.log("now I am gonna try");
+
+        const res = await prisma.spaces.delete({
+            where: {
+                userId: userId,
+                id: spaceId
+            }
+        });
+
+        console.log("deleted space successfully");
+        return res;
+    } catch (error) {
+        console.log("Error deleting the space:", error);
+        return { error: "Error deleting the space. Please try again later." };
     }
 }

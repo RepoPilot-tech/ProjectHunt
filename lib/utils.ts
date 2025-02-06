@@ -150,3 +150,4 @@ export function getTitleFromChat(chat) {
 
   return firstMessage.content;
 }
+

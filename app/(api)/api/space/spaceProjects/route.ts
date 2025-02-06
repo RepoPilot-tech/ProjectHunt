@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     const userId = session.user.id;
     const url = new URL(request.url);
     const id = url.searchParams.get("id");
-    console.log("User ID && Query ID:", userId, id);
+    // console.log("User ID && Query ID:", userId, id);
 2
 
     if (!userId) {
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     }
 
     const res = await getAllSpaceProjects({userId, id});
-    console.log("wassup bitch", res);
+    // console.log("wassup bitch", res);
 
     return new Response(JSON.stringify(res), {
       status: 200,
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     });
 
   } catch (error) {
-    console.error("Error:", error);
+    // console.error("Error:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

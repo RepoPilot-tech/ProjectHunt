@@ -28,8 +28,9 @@ import {
 } from "@/components/ui/sidebar"
 import { DataContext } from "@/provider/spaceContext"
 
-import { GlareCard } from "./ui/glare-card"
 import SpacesDialog from "./custom/spacesDialog"
+import { GlareCard } from "./ui/glare-card"
+import { fetchData } from "@/lib/spaces"
 
 
 export function Spaces() {
@@ -42,25 +43,24 @@ export function Spaces() {
       throw new Error("DataInput must be used within a DataProvider");
     }
     const {data} = context;
-    console.log("data", data);
+    // console.log("data", data);
 
     React.useEffect(() => {
-      // console.log("calingg.....")
       try {
-        async function fetchData() {
-          const res = await axios.get("/api/space/fetchSpaces")
-          // console.log("rs from get", res);
-          setSpacesData(res.data);
+        const call = async () => {
+          const res = await fetchData();
+          setSpacesData(res);
         }
-        fetchData();
+        call();
       } catch (error) {
         toast.error("errro fetch spaces");
       }
     }, [])
-    // console.log("spaces to send", spacesData);
 
     function showpopOver(name, id){
+      // console.log("i am clicked here show popover")
       setPopOver(!popOver);
+      console.log(popOver);
       setOpenSpace([name, id]);
     }
 
@@ -82,7 +82,6 @@ export function Spaces() {
           <SidebarGroup key={index} className="p-2">
               <GlareCard onClick={showpopOver} name={space.name} icon={space.icon} num={index = index+1} />
           </SidebarGroup>
-          {/* <SidebarSeparator className="mx-0" /> */}
         </React.Fragment>
       ))}
     </>

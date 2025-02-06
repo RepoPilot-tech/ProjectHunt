@@ -1,9 +1,13 @@
 'use client'
 
-import * as React from 'react'
+import axios from 'axios'
 import { Edit, Trash } from 'lucide-react'
+import * as React from 'react'
+
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { DataContext } from '@/provider/spaceContext'
+
 import { EditSpaceDialog } from './edit-space-dialog'
 
 interface Space {
@@ -22,20 +26,9 @@ interface ManageSpacesPopoverProps {
   onClose: () => void
 }
 
-export default function ManageSpacesPopover({ onClose }: ManageSpacesPopoverProps) {
-  // This would typically come from your state management or API
-  const [spaces, setSpaces] = React.useState<Space[]>([
-    { id: '1', name: 'Space 1', icon: '🚀', projects: ['project1', 'project2'] },
-    { id: '2', name: 'Space 2', icon: '🌟', projects: ['project3'] },
-    { id: '3', name: 'Space 3', icon: '🌈', projects: [] },
-  ])
+export default function ManageSpacesPopover({ onClose, spacesData }: ManageSpacesPopoverProps) {
 
-  const [projects] = React.useState<Project[]>([
-    { id: 'project1', name: 'Project 1' },
-    { id: 'project2', name: 'Project 2' },
-    { id: 'project3', name: 'Project 3' },
-    { id: 'project4', name: 'Project 4' },
-  ])
+  // console.log("manage spaces component", spacesData);
 
   const [editingSpace, setEditingSpace] = React.useState<Space | null>(null)
 
@@ -44,33 +37,43 @@ export default function ManageSpacesPopover({ onClose }: ManageSpacesPopoverProp
   }
 
   const handleSaveEdit = (updatedSpace: Space) => {
-    setSpaces(spaces.map(space => space.id === updatedSpace.id ? updatedSpace : space))
-    setEditingSpace(null)
+    setEditingSpace(null);                
   }
 
-  const handleDelete = (spaceId: string) => {
-    setSpaces(spaces.filter(space => space.id !== spaceId))
+
+  const handleDelete = async (spaceId: string) => {
+    console.log("here i am", spaceId);
+    try {
+      const res = await axios.post("/api/space/deleteSpace", { spaceId });
+      console.log(res);
+    } catch (error) {
+      console.log("error when making api call", error);
+      return new Response("An error occurred while deleting your space", {
+        status: 500,
+      });
+    } 
   }
+
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-[#18181B]">
         <DialogHeader>
           <DialogTitle>Manage Spaces</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          {spaces.map((space) => (
-            <div key={space.id} className="flex items-center justify-between p-2 border rounded">
+          {spacesData.map((space: Space) => (
+            <div key={space.id} className="hideit flex items-center justify-between p-2 border rounded">
               <div className="flex items-center space-x-2">
                 <span>{space.icon}</span>
                 <span>{space.name}</span>
               </div>
               <div className="space-x-2">
                 <Button size="sm" variant="outline" onClick={() => handleEdit(space)}>
-                  <Edit className="h-4 w-4" />
+                  <Edit className="size-4" />
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => handleDelete(space.id)}>
-                  <Trash className="h-4 w-4" />
+                  <Trash className="size-4" />
                 </Button>
               </div>
             </div>
