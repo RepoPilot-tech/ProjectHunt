@@ -34,12 +34,10 @@ export function SidebarRight({
       </SidebarHeader>
       <SidebarContent className="">
         <ProjectShowCase />
-        <DataProvider>
         <div className="w-full flex justify-center items-center mt-4">
         <MainPopover />
         </div>
         <Spaces />
-        </DataProvider>
       </SidebarContent>
     </Sidebar>
   )

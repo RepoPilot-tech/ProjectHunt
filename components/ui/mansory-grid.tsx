@@ -1,60 +1,110 @@
-import React, { useEffect, useState } from 'react';
-import { WobbleCard } from './wobble-card';
+import React, { useEffect, useState } from "react";
+import { WobbleCard } from "./wobble-card";
+import { ArrowRight, CornerDownRightIcon } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-const Mansorygrid = ({ name, website, builder, image, setLength, length }) => {
+// Global image cache
+const imageCache = {};
+
+const Mansorygrid = ({ name, website, builder }) => {
   const [loading, setLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
 
-  const handleSubmit = async () => {
+  // Assign a random background color
+  const [boxColor] = useState(() => {
+    const colors = [
+      "bg-cyan-700",
+      "bg-purple-700",
+      "bg-sky-600",
+      "bg-stone-400",
+      "bg-slate-400",
+      "bg-indigo-800",
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+  });
+
+  const fetchPreviewImage = async () => {
+    // Check if image is already cached
+    if (imageCache[website]) {
+      console.log("Using cached image for:", website);
+      setPreviewImage(imageCache[website]);
+      return;
+    }
+
     setLoading(true);
-    setPreviewImage('');
+    setPreviewImage("");
 
     try {
-      console.log("i am going to fetch images");
-      const response = await fetch('/api/scrapePreview', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      console.log("Fetching new preview image for:", website);
+      const response = await fetch("/api/scrapePreview", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ website }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        setPreviewImage(result.imageUrl);  // Set the image URL to state
-        setLength(prev => true);
+        imageCache[website] = result.imageUrl; // Cache the image globally
+        setPreviewImage(result.imageUrl);
       } else {
-        console.log('Error fetching previewww');
-        setLength(prev => false);
+        console.error("Error fetching preview image");
       }
     } catch (error) {
-      console.error('Error:', error);
-      console.log('Error fetching preview');
-      setLength(prev => false);
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
     if (website) {
-      handleSubmit(); 
+      fetchPreviewImage();
     }
   }, [website]);
 
-  const color = ["bg-cyan-700", "bg-purple-700", "bg-sky-600", "bg-stone-400", "bg-slate-400", "bg-indigo-800"]
-
   return (
-    <WobbleCard containerClassName={'w-full h-full'} className={`${previewImage ? "min-h-[30vh]" : "min-h-[20vh]"} ${color[Math.floor(Math.random() * 7)]} w-full`}>
-      <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-2xl font-semibold tracking-[-0.015em] text-white">
-        {name}
-      </h2>
-      {loading && <p className='text-sm'>Loading preview...</p>}
+    <WobbleCard
+      containerClassName={"w-full"}
+      className={`${previewImage ? "min-h-[30vh]" : "min-h-[20vh]"} ${boxColor} flex flex-col justify-between`}
+    >
+      <div className="flex flex-col w-full !h-full">
+        <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-2xl font-semibold tracking-[-0.015em] text-white">
+          {name}
+        </h2>
+        <div className="flex gap-1 items-center">
+          <CornerDownRightIcon />
+          <h4 className="text-xs px-3 py-1 bg-gray-600 hover:bg-gray-700 cursor-pointer rounded-full mt-1">
+            {builder}
+          </h4>
+        </div>
+      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.2 }}
+      >
+        <Link
+          href={website}
+          target="_blank"
+          className="flex gap-1 text-lg z-[999] cursor-pointer hover:gap-3 duration-200 ease-in-out items-center"
+        >
+          Try Now <ArrowRight size={20} />
+        </Link>
+      </motion.div>
+
       {previewImage && (
-        <div className='absolute -right-1 -bottom-8 rounded-md w-[15vw] h-48 overflow-hidden'>
-          <img src={previewImage} alt="Website Preview" className="object-cover w-full h-full" />
+        <div className="absolute -right-1 -bottom-8 rounded-md w-[15vw] h-48 overflow-hidden">
+          <img
+            src={previewImage}
+            alt="Website Preview"
+            className="object-cover w-full h-full"
+          />
         </div>
       )}
     </WobbleCard>
   );
-}
+};
 
 export default Mansorygrid;

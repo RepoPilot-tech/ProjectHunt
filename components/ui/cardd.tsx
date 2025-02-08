@@ -26,6 +26,8 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedSpaces, setSelectedSpaces] = useState<string[]>([])
   const [spacesData, setSpacesData] = React.useState([]);
+    // const [loading, setLoading] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
   const context = React.useContext(DataContext);
 
   if(!context){
@@ -35,11 +37,11 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   console.log("data", data);
 
   React.useEffect(() => {
-    console.log("calingg.....")
+    // console.log("calingg.....")
     try {
       async function fetchData() {
         const res = await axios.get("/api/space/fetchSpaces")
-        console.log("rs from get", res.data.map(({id, name}) => ({id, name})));
+        // console.log("rs from get", res.data.map(({id, name}) => ({id, name})));
         setSpacesData(res.data.map(({id, name}) => ({id, name})));
       }
       fetchData();
@@ -47,41 +49,79 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
       toast.error("errro fetch spaces");
     }
   }, [])
-  console.log("project spaces", spacesData);
+  // console.log("project spaces", spacesData);
+
+  // useEffect(() => {
+  //       async function fetchImage(link: string) {
+  //         try {
+  //           const data = await fetch(`/api/scrapePreview`, {
+  //             method: 'POST',
+  //             headers: { 'Content-Type': 'application/json' },
+  //             body: JSON.stringify({ website }),
+  //           })
+  //           console.log(data);
+  //           const imageUrl = data.url;
+  //           setImageUrl(imageUrl);
+  //           // console.log("data now1", data.url)
+  //         } catch (error) {
+  //           console.error('Error fetching image:', error);
+  //         }
+  //       }
+    
+  //       if (websiteLink) {
+  //         fetchImage(websiteLink);
+  //         }
+  // }, [websiteLink]);
+  const handleSubmit = async () => {
+    setLoading(true);
+    setPreviewImage('');
+
+    try {
+      console.log("i am going to fetch images");
+      const response = await fetch('/api/scrapePreview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ websiteLink }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setPreviewImage(result.imageUrl); 
+        console.log("this is image", result.imageUrl)
+      } else {
+        console.log('Error fetching previewww');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      console.log('Error fetching preview');
+    }
+    finally{
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-        async function fetchMicrolinkImage(link: string) {
-          try {
-            const data = await fetch(`https://api.apiflash.com/v1/urltoimage?access_key=8fa6095fa8b84108aa0865515accbb47&wait_until=page_loaded&url=${link}`)
-            console.log(data);
-            const imageUrl = data.url;
-            setImageUrl(imageUrl);
-            console.log("data now1", data.url)
-          } catch (error) {
-            console.error('Error fetching image:', error);
-          }
-        }
-    
-        if (websiteLink) {
-            fetchMicrolinkImage(websiteLink);
-          }
+    if (websiteLink) {
+      handleSubmit(); 
+    }
   }, [websiteLink]);
+
 
   async function SaveProject() {
     setLoading(true);
-    console.log("its happenning")
+    // console.log("its happenning")
     try {
       if(isChecked == false){
-        console.log("here we are saving your project",name, creatorName, websiteLink, description, selectedSpaces)
+        // console.log("here we are saving your project",name, creatorName, websiteLink, description, selectedSpaces)
         const res = await axios.post("/api/save", {
         name, creatorName, websiteLink, description, selectedSpaces
       });
-      console.log('Server Response:', res.data);
+      // console.log('Server Response:', res.data);
     } else {
       const res = await axios.delete("/api/delete", {
         data: { websiteLink } 
     });
-      console.log('Server Response:', res.data);
+      // console.log('Server Response:', res.data);
     }
       setIsChecked(!isChecked)
     } catch (error) {
@@ -94,8 +134,8 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
 
   return (
     <>
-      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-gray-50 dark:text-black flex pr-0 pl-3">
-        <div className="z-20 h-full flex flex-col justify-between gap-3 bg-gray-50 py-3 w-full">
+      <div className="h-52 max-w-[25vw] border relative rounded-2xl bg-gray-50 dark:bg-[#18181B] dark:text-white flex pr-0 pl-3">
+        <div className="z-20 h-full flex flex-col justify-between gap-3 dark:bg-[#18181B] dark:text-white py-3 w-full">
           <div className="flex flex-col gap-1">
           <h1 className="text-xl font-sans font-semibold">{name}</h1>
           <div className="flex gap-1 items-center">
@@ -113,12 +153,12 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
         </div>
         <div className="rounded-tl-md overflow-hidden z-30 absolute w-[12vw] h-fit hover:shadow-lg bottom-0 right-0">
         {imageUrl ? (
-        <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" />
-        ) : (
-        <div className='w-20 h-20'>
+        <div className='absolute right-0'>
             <RotateCw className="my-2 size-10 animate-spin text-primary-500" />
         </div>
-      )}
+      ) : (
+        <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" />
+        )}
         </div>
       </div>
       </>

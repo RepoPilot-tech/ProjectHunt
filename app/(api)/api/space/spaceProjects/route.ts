@@ -3,7 +3,7 @@ import { getAllSpaceProjects } from "@/queries/queries";
 
 export async function GET(request: Request) {
   try {
-    console.log("yha phat bosdk");
+    // console.log("yha phat bosdk");
 
     // Authenticate user
     const session = await auth();
