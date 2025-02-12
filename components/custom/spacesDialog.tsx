@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import {motion} from 'framer-motion'
 import { XIcon, RotateCcw } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -50,9 +51,9 @@ const SpacesDialog = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
   }, [spaceIdd]);
 
   return (
-    <div className="size-full pt-8 pb-2 text-3xl flex flex-col gap-4 overflow-y-scroll text-white">
+    <motion.div className="size-full pt-8 pb-2 text-3xl flex flex-col gap-4 overflow-y-scroll text-white">
       <div className="px-8 flex justify-between items-center">
-        <div>{spaceName}</div>
+        <div className="capitalize">{spaceName}</div>
 
         <div className="flex gap-2">
           {/* Refresh Button */}
@@ -81,13 +82,17 @@ const SpacesDialog = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
       ) : spaceData.length > 0 ? (
         <div className="w-full h-fit overflow-y-scroll columns-2xs px-6">
           {spaceData.map((project, i) => (
-            <div key={i} className="w-[25vw] mt-4 relative">
+            <motion.div initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -10, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+           key={i} className="w-[25vw] mt-4 relative">
               <Mansorygrid
                 name={project.name}
                 website={project.websiteLink}
                 builder={project.creatorName}
               />
-            </div>
+            </motion.div>
           ))}
         </div>
       ) : (
@@ -104,7 +109,7 @@ const SpacesDialog = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
           </h1>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

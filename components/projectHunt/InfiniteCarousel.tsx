@@ -138,7 +138,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
         {duplicatedRow2Cards.map((card, idx) => (
           <motion.div
             key={`row2-${idx}`}
-            className="min-w-[20vw] h-[13vw] p-4 rounded-lg relative border dark:bg-[#18181B] dark:text-white flex flex-col justify-between cursor-pointer overflow-hidden"
+            className="min-w-[20vw] h-[13vw] p-4 rounded-lg relative border dark:bg-[#18181B] dark:text-white  flex flex-col justify-between cursor-pointer overflow-hidden"
             onHoverStart={() => setHoveredCard(idx + duplicatedRow1Cards.length)}
             onHoverEnd={() => setHoveredCard(null)}
             animate={{

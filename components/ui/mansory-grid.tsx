@@ -4,14 +4,12 @@ import { ArrowRight, CornerDownRightIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-// Global image cache
 const imageCache = {};
 
 const Mansorygrid = ({ name, website, builder }) => {
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
-  // Assign a random background color
   const [boxColor] = useState(() => {
     const colors = [
       "bg-cyan-700",

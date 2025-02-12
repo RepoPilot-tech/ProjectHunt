@@ -12,6 +12,8 @@ import Checkbox from "./checkbox";
 import Link from "next/link";
 import { DataContext } from "@/provider/spaceContext";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
+
 
 interface Card {
   name: String,
@@ -49,29 +51,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
       toast.error("errro fetch spaces");
     }
   }, [])
-  // console.log("project spaces", spacesData);
-
-  // useEffect(() => {
-  //       async function fetchImage(link: string) {
-  //         try {
-  //           const data = await fetch(`/api/scrapePreview`, {
-  //             method: 'POST',
-  //             headers: { 'Content-Type': 'application/json' },
-  //             body: JSON.stringify({ website }),
-  //           })
-  //           console.log(data);
-  //           const imageUrl = data.url;
-  //           setImageUrl(imageUrl);
-  //           // console.log("data now1", data.url)
-  //         } catch (error) {
-  //           console.error('Error fetching image:', error);
-  //         }
-  //       }
-    
-  //       if (websiteLink) {
-  //         fetchImage(websiteLink);
-  //         }
-  // }, [websiteLink]);
+  
   const handleSubmit = async () => {
     setLoading(true);
     setPreviewImage('');
@@ -101,6 +81,16 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   };
 
   useEffect(() => {
+    const savedState = Cookies.get(`checked_${websiteLink}`);
+    const savedSpaces = Cookies.get(`spaces_${websiteLink}`);
+    if (savedState === "true") {
+      setIsChecked(true);
+    }
+
+    if (savedSpaces) {
+      setSelectedSpaces(JSON.parse(savedSpaces));
+    }
+
     if (websiteLink) {
       handleSubmit(); 
     }
@@ -113,23 +103,31 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
     try {
       if(isChecked == false){
         // console.log("here we are saving your project",name, creatorName, websiteLink, description, selectedSpaces)
-        const res = await axios.post("/api/save", {
+        const res = await axios.post("/api/save", { 
         name, creatorName, websiteLink, description, selectedSpaces
       });
       // console.log('Server Response:', res.data);
+      Cookies.set(`checked_${websiteLink}`, "true", { expires: 360 });
+      Cookies.set(`spaces_${websiteLink}`, JSON.stringify(selectedSpaces), { expires: 360 });
+      setIsChecked(true); 
+      setSelectedSpaces([...selectedSpaces]);
     } else {
       const res = await axios.delete("/api/delete", {
         data: { websiteLink } 
     });
+    Cookies.set(`checked_${websiteLink}`, "false", { expires: 360 });
+    Cookies.remove(`spaces_${websiteLink}`);
       // console.log('Server Response:', res.data);
+      setIsChecked(false)
+      setSelectedSpaces([]);
     }
-      setIsChecked(!isChecked)
     } catch (error) {
       console.log("Error occurred while saving or deleting", error);
+      toast.error("Project already saved in database");
     } finally {
       setLoading(false);
     }
-    console.log(isChecked);
+    // console.log(isChecked);
   }
 
   return (
@@ -157,7 +155,8 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
             <RotateCw className="my-2 size-10 animate-spin text-primary-500" />
         </div>
       ) : (
-        <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" />
+        // <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" />
+        <div></div>
         )}
         </div>
       </div>

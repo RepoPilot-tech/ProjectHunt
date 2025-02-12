@@ -164,7 +164,7 @@ export const History = ({ user }: { user: User | undefined }) => {
               ) : null}
 
               {history &&
-                history.map((chat) => (
+                history?.map((chat) => (
                   <div
                     key={chat.id}
                     className={cx(

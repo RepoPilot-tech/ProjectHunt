@@ -102,7 +102,7 @@ export function NavHistory({user}) {
         <span>{history === undefined ? "loading" : history.length} chats</span>
       </SidebarGroupLabel>
       <SidebarMenu>
-        {history && history.map((item) => (
+        {history && history?.map((item) => (
           <SidebarMenuItem key={item.id}>
             <SidebarMenuButton asChild>
               <a href={`/chat/${item.id}`}>

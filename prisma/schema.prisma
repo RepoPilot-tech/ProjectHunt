@@ -47,8 +47,8 @@ model Spaces {
 model ProjectSpace {
   projectId String
   spaceId   String
-  project   Project @relation(fields: [projectId], references: [id])
-  space     Spaces   @relation(fields: [spaceId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  space     Spaces   @relation(fields: [spaceId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 

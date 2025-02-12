@@ -138,59 +138,120 @@ export async function saveProject({
     creatorName,
     websiteLink,
     selectedSpaces,
-    userId}: any){
-        if(selectedSpaces.length === 0){
-            console.log("length is zero i am not saving you tada");
-            try {
-                const defaultSpace = await prisma.spaces.findFirst({
-                    where: {
-                        name: "All",
-                        userId: userId,
-                    }
-                })
-                if (!defaultSpace) {
-                    throw new Error('No default "[All]" space found for the user.');
-                }
-
-                selectedSpaces = [defaultSpace];
-                console.log("Using the default '[All]' space", selectedSpaces);
-            } catch (error) {
-                console.log("Error fetching default space", error);
-                return new Response("An error occurred while processing your request", {
-                    status: 500,
-                  });
-            }
-            // selectedSpaces = [{id: "28881943-c6c0-4eb7-a4a3-5c446ed7c76a"}]
-            // console.log("this one is by default ---------", selectedSpaces);
-        }
-
-        const spacesid = selectedSpaces.map((space: { id: any; }) => space.id);
-        console.log("from space name", spacesid)
+    userId
+}: any) {
+    if (selectedSpaces.length === 0) {
+        console.log("length is zero i am not saving you tada");
         try {
-            const newProject = await prisma.project.create({
-                data: {
-                    name: name,
-                    creatorName: creatorName,
-                    websiteLink: websiteLink,
-                    spaces: {
-                        create: spacesid.map((spacesid: any) => ({
-                            space: {
-                                connect: {
-                                    id: spacesid
-                                }
-                            }
-                        }))
-                    }
-                }
-            })
+            const defaultSpace = await prisma.spaces.findFirst({
+                where: { name: "All", userId: userId }
+            });
 
-            console.log("New project created:", newProject);
-            return newProject;
+            if (!defaultSpace) {
+                throw new Error('No default "[All]" space found for the user.');
+            }
+
+            selectedSpaces = [defaultSpace];
+            console.log("Using the default '[All]' space", selectedSpaces);
         } catch (error) {
-            console.error("Error creating project:", error);
-            throw error;
+            console.log("Error fetching default space", error);
+            return new Response("An error occurred while processing your request", {
+                status: 500,
+            });
         }
+    }
+
+    const spacesId = selectedSpaces.map((space: { id: any }) => space.id);
+    console.log("from space name", spacesId);
+
+    try {
+        // Check if project already exists
+        let project = await prisma.project.findUnique({
+            where: { websiteLink }
+        });
+
+        if (!project) {
+            // Create project if it doesn't exist
+            project = await prisma.project.create({
+                data: {
+                    name,
+                    creatorName,
+                    websiteLink,
+                }
+            });
+        }
+
+        // Add the project to the user's selected spaces
+        await prisma.projectSpace.createMany({
+            data: spacesId.map((spaceId: any) => ({
+                projectId: project.id,
+                spaceId: spaceId,
+            })),
+            skipDuplicates: true,
+        });
+
+        console.log("Project saved successfully:", project);
+        return { success: true, message: "Project saved successfully" };
+    } catch (error) {
+        console.error("Error saving project:", error);
+        return { success: false, message: "Failed to save project" };
+    }
 }
+
+
+export async function deleteProject({ websiteLink, userId }: { websiteLink: string; userId: string }) {
+    try {
+        // Find the project
+        // console.log("delete step 1", websiteLink, userId);
+        const project = await prisma.project.findUnique({
+            where: { websiteLink: websiteLink },
+            include: { spaces: true }, // Get all associated spaces
+        });
+
+        if (!project) {
+            return { success: false, message: "Project not found" };
+        }
+
+        // Get user's spaces where this project is saved
+        // console.log("delete step 2")
+        const userSpaces = await prisma.spaces.findMany({
+            where: { userId },
+            select: { id: true },
+        });
+
+        const userSpaceIds = userSpaces.map((space) => space.id);
+
+        // Delete the project-space relation for the user's spaces
+        // console.log("delete step 3")
+        await prisma.projectSpace.deleteMany({
+            where: {
+                projectId: project.id,
+                spaceId: { in: userSpaceIds }, // Only remove from this user's spaces
+            },
+        });
+
+        // Check if the project is still associated with any spaces
+        // console.log("delete step 4")
+        const remainingLinks = await prisma.projectSpace.count({
+            where: { projectId: project.id },
+        });
+
+        // If no one else has saved the project, delete it from `Project`
+        // console.log("delete step 5")
+        if (remainingLinks === 0) {
+            await prisma.project.delete({
+                where: { id: project.id },
+            });
+            return { success: true, message: "Project deleted from database" };
+        }
+
+        return { success: true, message: "Project removed from your spaces" };
+    } catch (error) {
+        console.error("Error deleting project:", error);
+        return { success: false, message: "Failed to delete project" };
+    }
+}
+
 
 export async function getProjectByLink({websiteLink}: {websiteLink: string}){
     try {
@@ -203,21 +264,6 @@ export async function getProjectByLink({websiteLink}: {websiteLink: string}){
         return res;
     } catch (error) {
         // console.log("error fetch project by websitelink")
-        throw error;
-    }
-}
-
-export async function deleteProject({websiteLink}: {websiteLink: string}){
-    try {
-        const res = await prisma.project.delete({
-            where: {
-                websiteLink: websiteLink
-            }
-        })
-
-        return res;
-    } catch (error) {
-        // console.log("Delete Project");
         throw error;
     }
 }
@@ -282,19 +328,25 @@ export async function getAllSpaceProjects({userId, id}){
 
 export async function deleteSpace({ spaceId, userId }) {
     try {
-        console.log("now I am gonna try");
+        console.log("Attempting to delete space...");
 
         const res = await prisma.spaces.delete({
             where: {
-                userId: userId,
-                id: spaceId
-            }
+                id: spaceId, // Ensure only the space with this ID is targeted
+                userId: userId, // Ensure only the user's space is deleted
+            },
         });
 
-        console.log("deleted space successfully");
+        console.log("Deleted space successfully:", res);
         return res;
     } catch (error) {
-        console.log("Error deleting the space:", error);
+        console.error("Error deleting the space:", error);
+
+        // Handle case where the space doesn't exist
+        if (error.code === "P2025") {
+            return { error: "Space not found or already deleted." };
+        }
+
         return { error: "Error deleting the space. Please try again later." };
     }
 }

@@ -10,6 +10,7 @@ export async function POST(req: Request) {
     try {
       const { name, creatorName, websiteLink, description, selectedSpaces } = await req.json();
       const session = await auth();
+      
       if (!session) {
         return new Response("Unauthorized", { status: 401 });
       }
