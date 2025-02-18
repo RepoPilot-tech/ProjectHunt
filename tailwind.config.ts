@@ -11,14 +11,10 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	fontFamily: {
-  		sans: [
-  			'geist'
-  		],
-  		mono: [
-  			'geist-mono'
-  		]
-  	},
+	fontFamily: {
+		cabin: "var(--font-cabin)",
+		roboto: "var(--font-roboto)"
+	},
   	extend: {
 		animation: {
 			'blink': 'blink 2s ease-in-out infinite'

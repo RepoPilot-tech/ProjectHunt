@@ -65,11 +65,13 @@
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "url-metadata": "^4.1.1",
     "usehooks-ts": "^3.1.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/d3-scale": "^4.0.8",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/pdf-parse": "^1.1.4",
     "@types/react": "^18",

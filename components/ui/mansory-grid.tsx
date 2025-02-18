@@ -64,7 +64,7 @@ const Mansorygrid = ({ name, website, builder }) => {
   return (
     <WobbleCard
       containerClassName={"w-full"}
-      className={`${previewImage ? "min-h-[30vh]" : "min-h-[20vh]"} ${boxColor} flex flex-col justify-between`}
+      className={`${previewImage ? "min-h-[25vh]" : "min-h-[20vh]"} ${boxColor} flex flex-col z-[30] justify-between`}
     >
       <div className="flex flex-col w-full !h-full">
         <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-2xl font-semibold tracking-[-0.015em] text-white">
@@ -86,14 +86,14 @@ const Mansorygrid = ({ name, website, builder }) => {
         <Link
           href={website}
           target="_blank"
-          className="flex gap-1 text-lg z-[999] cursor-pointer hover:gap-3 duration-200 ease-in-out items-center"
+          className="flex gap-1 text-lg z-[40] cursor-pointer hover:gap-3 duration-200 ease-in-out items-center"
         >
           Try Now <ArrowRight size={20} />
         </Link>
       </motion.div>
 
       {previewImage && (
-        <div className="absolute -right-1 -bottom-8 rounded-md w-[15vw] h-48 overflow-hidden">
+        <div className="absolute -right-1 -bottom-1 rounded-t-md w-[15vw] h-[16vh] overflow-hidden">
           <img
             src={previewImage}
             alt="Website Preview"

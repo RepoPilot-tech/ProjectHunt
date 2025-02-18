@@ -6,6 +6,7 @@ import { SidebarLeft } from "@/components/sidebar-left";
 import { SidebarRight } from "@/components/sidebar-right";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DataProvider } from "@/provider/spaceContext";
+import { Cabin_Sketch , Roboto } from "next/font/google";
 
 import "./globals.css";
 import { auth } from "./(auth)/auth";
@@ -15,6 +16,21 @@ export const metadata: Metadata = {
   description: "ProjectHunt Place to find all your projects.",
 };
 
+const CabinSketch = Cabin_Sketch({
+  subsets: ["latin"],
+  variable: "--font-cabin",
+  display: "swap",
+  weight: ["400", "700"]
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -22,7 +38,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${CabinSketch.variable} ${roboto.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

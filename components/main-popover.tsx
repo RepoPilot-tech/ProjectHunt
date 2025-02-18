@@ -38,7 +38,7 @@ export default function MainPopover() {
 
   return (
     <Popover open={openPopover === 'main'} onOpenChange={(open) => setOpenPopover(open ? 'main' : null)}>
-      <PopoverTrigger className="flex text-white justify-between items-center gap-6 px-6 hover:gap-12 duration-200 ease-in-out bg-gray-700 hover:bg-gray-800 w-fit p-2 rounded-full">
+      <PopoverTrigger className="flex text-white justify-between items-center gap-6 px-6 hover:gap-12 duration-200 ease-in-out bg-gray-700 hover:gradient w-fit p-2 rounded-full">
       <h1>Spaces</h1>
       <PlusIcon />
       </PopoverTrigger>

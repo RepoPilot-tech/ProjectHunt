@@ -43,7 +43,6 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
     try {
       async function fetchData() {
         const res = await axios.get("/api/space/fetchSpaces")
-        // console.log("rs from get", res.data.map(({id, name}) => ({id, name})));
         setSpacesData(res.data.map(({id, name}) => ({id, name})));
       }
       fetchData();
@@ -54,28 +53,27 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
   
   const handleSubmit = async () => {
     setLoading(true);
-    setPreviewImage('');
+    setImageUrl(null);
 
     try {
       console.log("i am going to fetch images");
       const response = await fetch('/api/scrapePreview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ websiteLink }),
+        body: JSON.stringify({ website: websiteLink }),
       });
 
       if (response.ok) {
         const result = await response.json();
-        setPreviewImage(result.imageUrl); 
+        setImageUrl(result.imageUrl); 
         console.log("this is image", result.imageUrl)
       } else {
-        console.log('Error fetching previewww');
+        console.log('Error fetching preview');
       }
     } catch (error) {
       console.error('Error:', error);
       console.log('Error fetching preview');
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
   };
@@ -149,15 +147,8 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
         <div className="">
         <Checkbox spaces={spacesData} isChecked={isChecked} onClick={SaveProject} loading={loading} setSelectedSpaces={setSelectedSpaces} selectedSpaces={selectedSpaces} />
         </div>
-        <div className="rounded-tl-md overflow-hidden z-30 absolute w-[12vw] h-fit hover:shadow-lg bottom-0 right-0">
-        {imageUrl ? (
-        <div className='absolute right-0'>
-            <RotateCw className="my-2 size-10 animate-spin text-primary-500" />
-        </div>
-      ) : (
-        // <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" />
-        <div></div>
-        )}
+        <div className="rounded-tl-md overflow-hidden z-30 absolute w-[13vw] h-[13vh] hover:shadow-lg bottom-0 right-0">
+          {imageUrl ? <img src={imageUrl} alt="Website Image" className="w-full h-full object-cover" /> : <div></div>}
         </div>
       </div>
       </>

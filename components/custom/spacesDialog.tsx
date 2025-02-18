@@ -53,7 +53,7 @@ const SpacesDialog = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
   return (
     <motion.div className="size-full pt-8 pb-2 text-3xl flex flex-col gap-4 overflow-y-scroll text-white">
       <div className="px-8 flex justify-between items-center">
-        <div className="capitalize">{spaceName}</div>
+        <div className="capitalize font-roboto text-4xl font-semibold">{spaceName}</div>
 
         <div className="flex gap-2">
           {/* Refresh Button */}

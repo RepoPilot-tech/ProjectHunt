@@ -3,13 +3,16 @@ import {
   Blocks,
   Calendar,
   Command,
+  Github,
   Home,
   Inbox,
+  Linkedin,
   MessageCircleQuestion,
   Search,
   Settings2,
   Sparkles,
   Trash2,
+  Twitter,
 } from "lucide-react"
 import { User } from "next-auth"
 import * as React from "react"
@@ -36,7 +39,7 @@ export function SidebarLeft({
   return (
     <Sidebar className="border-r-2 rounded-r-3xl overflow-hidden">
       <SidebarHeader>
-        <h1 className="truncate font-semibold text-2xl pl-2">Project Hunt</h1>
+        <h1 className="truncate text-[2.4rem] font-semibold w-full text-center font-cabin">Project Hunt</h1>
         <div className="relative w-full max-w-sm">
       <Input
         type="search"
@@ -50,7 +53,21 @@ export function SidebarLeft({
         <NavHistory user={user} />
       </SidebarContent>
       <SidebarFooter>
-      <NavUser user={user} />
+      {/* <NavUser user={user} /> */}
+      <div className="w-full bg-black font-cabin text-lg rounded-2xl flex items-center justify-between p-4">
+        <span className="">Build by</span>
+        <div className="flex gap-2">
+          <a href="https://x.com/l_fahadkhan_l" target="_blank" rel="noopener noreferrer" className="px-4 py-2 text-lg bg-[#18181B] hover:bg-[#2f2f32] duration-200 ease-in-out rounded-full">
+          𝕏
+          </a>
+          {/* <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className="px-4 py-3 bg-[#18181B] rounded-full">
+            <Linkedin className="text-gray-200" size={18} />
+          </a> */}
+          <a href="https://github.com/Fahad-Dezloper" target="_blank" rel="noopener noreferrer" className="px-4 py-2 flex items-center justify-center bg-[#18181B] hover:bg-[#2f2f32] rounded-full">
+            <Github className="text-gray-200" size={18} />
+          </a>
+        </div>
+      </div>
       </SidebarFooter>
     </Sidebar>
   )
