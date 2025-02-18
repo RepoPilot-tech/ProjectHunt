@@ -50,13 +50,16 @@ const config: Config = {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+  				DEFAULT: '#92d2fb',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
+				  DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
-  			},
+			},
+			backgroundImage: {
+			  'primary-gradient': "linear-gradient(135deg, hsla(213, 62%, 45%, 1) 0%, hsla(203, 89%, 71%, 1) 53%, hsla(203, 51%, 52%, 1) 99%)",
+			},
   			muted: {
   				DEFAULT: 'hsl(var(--muted))',
   				foreground: 'hsl(var(--muted-foreground))'

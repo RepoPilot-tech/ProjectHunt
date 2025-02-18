@@ -112,7 +112,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
           <h1 className="text-xl font-sans font-semibold">{card.ToolName}</h1>
           <div className="flex gap-1 items-center">
           <CornerDownRight size={20} />
-          <Badge className="max-w-[14vw] !rounded-md mt-1 flex flex-wrap text-xs">{card.CreatorName}</Badge>
+          <Badge className="max-w-[14vw] !rounded-md mt-1 flex flex-wrap text-xs bg-indigo-700 text-white hover:bg-indigo-600">{card.CreatorName}</Badge>
           </div>
           </div>
             {hoveredCard === idx && (
@@ -156,7 +156,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
           <h1 className="text-xl font-sans font-semibold">{card.ToolName}</h1>
           <div className="flex gap-1 items-center">
           <CornerDownRight size={20} />
-          <Badge className="max-w-[14vw] !rounded-md mt-1 flex flex-wrap text-xs">{card.CreatorName}</Badge>
+          <Badge className="max-w-[14vw] !rounded-md mt-1 flex flex-wrap text-xs bg-indigo-700 text-white hover:bg-indigo-600">{card.CreatorName}</Badge>
           </div>
           </div>
             {hoveredCard === idx + duplicatedRow1Cards.length && (

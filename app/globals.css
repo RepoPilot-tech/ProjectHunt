@@ -152,3 +152,29 @@ body{
 .overflow-y-scroll::-webkit-scrollbar{
     display: none;
 }
+
+.gradient {
+    background-image: linear-gradient(
+      45deg,
+      hsl(240deg 33% 11%) 0%,
+      hsl(234deg 34% 18%) 6%,
+      hsl(231deg 35% 25%) 13%,
+      hsl(228deg 36% 33%) 19%,
+      hsl(225deg 38% 41%) 26%,
+      hsl(223deg 40% 48%) 32%,
+      hsl(221deg 55% 56%) 39%,
+      hsl(219deg 80% 64%) 46%,
+      hsl(216deg 99% 68%) 53%,
+      hsl(214deg 100% 70%) 59%,
+      hsl(211deg 100% 73%) 66%,
+      hsl(210deg 100% 76%) 73%,
+      hsl(208deg 98% 79%) 80%,
+      hsl(206deg 96% 83%) 87%,
+      hsl(204deg 92% 87%) 93%,
+      hsl(203deg 87% 91%) 100%
+    );
+  }
+
+  /* .gradient2{
+    background: linear-gradient(45deg, hsla(0, 0%, 0%, 1) 0%, hsla(199, 100%, 68%, 1) 100%);
+  } */
