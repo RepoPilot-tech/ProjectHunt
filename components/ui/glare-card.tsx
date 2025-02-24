@@ -21,7 +21,7 @@ export const GlareCard = ({name, icon, num, onClick}) => {
     // bg-linear-to-r from-gray-800 via-blue-700 to-gray-900
     <motion.div 
   onClick={onClick} 
-  className={`relative w-full text-black bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-${boxColor}-300 to-${boxColor}-100 rounded-[2.5rem] p-4 transition-transform duration-400 ease-in-out hover:cursor-pointer hover:scale-[0.97] active:scale-[0.9]`}>
+  className={`relative w-full text-black bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-300 to-sky-100 rounded-[2.5rem] p-4 transition-transform duration-400 ease-in-out hover:cursor-pointer hover:scale-[0.97] active:scale-[0.9]`}>
       <div className="flex flex-col justify-between gap-20 h-full transition-transform duration-400 ease-in-out hover:scale-[0.96]">
         <div className="flex justify-between">
           <span className="font-bold">{icon}</span>
