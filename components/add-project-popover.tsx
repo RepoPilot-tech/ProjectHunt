@@ -8,7 +8,7 @@ export default function AddProjectPopover() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">Add Project</Button>
+        <Button variant="outline">Add Projectr</Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="text-center p-4">
