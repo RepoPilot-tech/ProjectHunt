@@ -86,7 +86,7 @@ export function InfiniteCarousel({ cards }: InfiniteCarouselProps) {
   return (
     <div
       ref={containerRef}
-      className="w-full mt-8 p-3 flex flex-col items-center justify-center overflow-hidden"
+      className="w-full mt-14 p-3 flex flex-col scale-90 items-center justify-center overflow-hidden"
       onMouseLeave={handleMouseLeave}
     >
       {/* First Row */}

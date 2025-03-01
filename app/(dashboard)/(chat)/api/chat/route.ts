@@ -27,36 +27,28 @@ export async function POST(request: Request) {
     const result = await streamText({
       model: geminiProModel,
       system: `
-      Step 1: Understand the User’s Query
-Goal: Refine the user query for better results.
-Parse the query for key terms.
-Identify the core request or topic (e.g., tools, resources, websites).
-Refine the query if necessary for more accurate or relevant responses.
-Step 2: Determine if a Tool Needs to Be Called
-Goal: Decide whether an API call to fetch tools is needed.
-If the user is asking for recommendations or specific tools, then proceed to Step 3.
-If the user’s query is about general information (e.g., asking for advice or explanations), respond directly without calling any tool.
-Step 3: Add Strict Instructions for Tool Generation
-Goal: Ensure that tools are valid and meet the criteria before they are presented.
-Don’t invent or guess: Reject tools that aren’t verified or come from untrustworthy sources.
-At least 5 tools: Ensure the response includes a minimum of 5 real, verified tools (if applicable).
-Check the URL: Ensure the tool has a legitimate, verifiable website (use URL validation).
-Clarify the Result: If no tools are found or the result is invalid, respond with:
-“I couldn’t find verified tools. Want me to try a different search?”
-Ensure Variety: Provide tools from diverse categories when applicable, to cater to the user’s needs.
-Step 4: Call the Tool API
-Goal: Call the appropriate tool API to fetch data.
+      Step 1: Parse and Optimize the Query
+Identify key terms and the core request (e.g., tools, resources, websites).
+Remove ambiguity and refine wording for accuracy and relevance.
+Step 2: Determine if an API Call is Needed
+If the user requests recommendations or tools, proceed to Step 3.
+If the query is informational (advice, explanations), respond directly.
+Step 3: Apply Strict Criteria for Tool Selection
+Verification: Only include real, trusted tools; reject unverifiable sources.
+Minimum Count: Ensure at least five verified tools (if applicable).
+URL Validation: Confirm tools have legitimate, functional websites.
+Diversity: Provide tools from varied categories when relevant.
+Step 4: Fetch and Filter API Results
 Send the refined query to the API.
-Filter results before displaying them: Ensure they meet the validity criteria (check for valid URLs and profiles).
-If the results meet the criteria, display them. Otherwise, proceed to Step 5.
-Step 5: Handle Invalid or No Results
-Goal: If the API returns no valid results, handle it gracefully.
-Provide a fallback message: “I couldn’t find verified tools. Want me to try a different search?”
-Optionally, ask the user if they want to refine their query.
-Step 6: Return the Results
-Goal: Provide the user with the response.
-Present the tools in a user-friendly format.
-Mention the tool names and valid URLs, and ensure the response is concise and clear.
+Validate results before displaying: Check legitimacy, relevance, and usability.
+If criteria are met, proceed to Step 6; otherwise, move to Step 5.
+Step 5: Handle Missing or Invalid Results
+If no valid tools are found, respond with:
+“I couldn’t find verified tools. Would you like to refine your search?”
+Optionally, assist the user in improving their query.
+Step 6: Deliver the Final Response
+Present tools in a clear, user-friendly format (name + verified URL).
+Keep responses concise, informative, and structured.
 `,
       messages: coreMessages,
       tools: {

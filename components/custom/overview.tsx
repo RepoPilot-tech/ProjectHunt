@@ -12,44 +12,44 @@ interface Card {
 }
 
 export const Overview = () => {
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
+    const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
 
-    const fetchData = async () => {
-      try {
-        const response = await axios.post("/api/randomProducts");
-        const rawOutput = response.data.output; 
-
-        const cleanOutput = rawOutput.replace(/```/g, "");
-        const parsedProjects = JSON.parse(cleanOutput);
-        const cache = {
-          data: parsedProjects,
-          timestamp: Date.now(),
-        };
-        localStorage.setItem("cachedProjects", JSON.stringify(cache));
-        setProjects(parsedProjects);
-        // console.log("Parsed Projects:", parsedProjects);
-      } catch (error) {
-        console.error("Error fetching or parsing data:", error);
-      }
-    };
-    
     const checkCache = () => {
       const cachedData = localStorage.getItem("cachedProjects");
-      const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
-
       if (cachedData) {
         const { data, timestamp } = JSON.parse(cachedData);
-        const now = Date.now();
-
-        if (now - timestamp < twoDaysInMilliseconds) {
-          // console.log("Using Cached Projects:", data);
+        if (Date.now() - timestamp < twoDaysInMilliseconds) {
           setProjects(data);
           return true;
         }
       }
       return false; 
+    };
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("/api/randomProducts");
+        const rawOutput = response.data.output.trim(); 
+
+        // Extract JSON part using regex
+        const jsonMatch = rawOutput.match(/```json\s*([\s\S]*?)\s*```/);
+        const cleanOutput = jsonMatch ? jsonMatch[1] : rawOutput;
+        const parsedProjects = JSON.parse(cleanOutput);
+
+        setProjects(parsedProjects);
+
+        // Cache the data in localStorage
+        const cache = {
+          data: parsedProjects,
+          timestamp: Date.now(),
+        };
+        localStorage.setItem("cachedProjects", JSON.stringify(cache));
+      } catch (error) {
+        console.error("Error fetching or parsing data:", error);
+      }
     };
 
     if (!checkCache()) {
@@ -59,8 +59,8 @@ export const Overview = () => {
 
   return (
     <Suspense fallback={<SkeletonCarousel />}>
-        <InfiniteCarousel cards={projects} />
-      </Suspense>  
+      <InfiniteCarousel cards={projects} />
+    </Suspense>  
   );
 };
 
@@ -78,5 +78,5 @@ function SkeletonCarousel() {
         ))}
       </div>
     </div>
-  )
+  );
 }

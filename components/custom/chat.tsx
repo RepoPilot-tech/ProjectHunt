@@ -37,6 +37,7 @@ export function Chat({
         <div
           className={`flex flex-col gap-4 h-full items-center ${messages.length === 0 ? "max-w-[60vw]" : "w-[43vw]"} overflow-hidden overflow-y-scroll`}
         >
+          
           {messages.length === 0 && <Overview />}
 
           {messages.map((message) => (

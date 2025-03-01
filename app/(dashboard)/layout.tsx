@@ -7,6 +7,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { DataProvider } from "@/provider/spaceContext";
 
 import { auth } from "../(auth)/auth";
+import Link from "next/link";
+import { NavBarDemo } from "@/components/custom/nav";
 
 type LayoutProps = {
   children: ReactNode;
@@ -23,7 +25,8 @@ const Layout = async ({ children }: {children: React.ReactNode}) => {
     <main className='flex gap-2 w-screen'>
       <DataProvider>
               <SidebarLeft user={session?.user} />
-                  <div className='w-full'>
+                  <div className='w-full relative'>
+                    <NavBarDemo />
                       {children}
                   </div>
               <SidebarRight user={session?.user} />

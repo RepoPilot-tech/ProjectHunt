@@ -163,8 +163,8 @@ export const History = ({ user }: { user: User | undefined }) => {
                 </div>
               ) : null}
 
-              {history &&
-                history?.map((chat) => (
+              {history?.length > 0 ?
+                history.map((chat) => (
                   <div
                     key={chat.id}
                     className={cx(
@@ -213,7 +213,7 @@ export const History = ({ user }: { user: User | undefined }) => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                ))}
+                )): <div>no history avail</div>}
             </div>
           </div>
         </SheetContent>
