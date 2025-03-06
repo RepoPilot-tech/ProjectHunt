@@ -1,5 +1,6 @@
 "use client"
-import { Home, User, Briefcase, FileText } from 'lucide-react'
+import { Home, User } from 'lucide-react'
+
 import { NavBar } from './navbar'
 
 export function NavBarDemo() {

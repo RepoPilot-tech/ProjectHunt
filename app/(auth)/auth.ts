@@ -27,8 +27,7 @@ export const {
         if (!response || (response instanceof Response && !response.ok)) {
           return null;
         }
-      
-        // Ensure response is properly converted to JSON if needed
+    
         let users = response instanceof Response ? await response.json() : response;
       
         if (!users.password) {

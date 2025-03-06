@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable tailwindcss/enforces-shorthand */
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client"
 
-import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import {
   Users,
@@ -24,6 +26,7 @@ import {
   MessageSquare,
   Lightbulb,
 } from "lucide-react"
+import { useState } from "react"
 
 const Page = () => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)

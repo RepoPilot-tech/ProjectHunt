@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/enforces-shorthand */
 import { WandSparkles } from "lucide-react";
 
 import { Skeleton } from "../ui/skeleton";

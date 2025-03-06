@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable tailwindcss/enforces-shorthand */
 import Link from "next/link"
 
 export const ProjectShowCase = () => {

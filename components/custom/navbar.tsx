@@ -1,9 +1,11 @@
+/* eslint-disable tailwindcss/enforces-shorthand */
 "use client"
 
-import React, { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import Link from "next/link"
 import { LucideIcon } from "lucide-react"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
+
 import { cn } from "@/lib/utils"
 
 interface NavItem {

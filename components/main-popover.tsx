@@ -2,16 +2,17 @@
 
 import { Plus, PlusIcon } from 'lucide-react'
 import * as React from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { fetchData } from '@/lib/spaces'
+import { DataContext } from '@/provider/spaceContext'
 
 import AddProjectPopover from './add-project-popover'
 import AddSpacePopover from './add-space-popover'
 import ManageSpacesPopover from './manage-spaces-popover'
-import { DataContext } from '@/provider/spaceContext'
-import { fetchData } from '@/lib/spaces'
-import { toast } from 'sonner'
+
 
 export default function MainPopover() {
   const [openPopover, setOpenPopover] = React.useState<string | null>(null)

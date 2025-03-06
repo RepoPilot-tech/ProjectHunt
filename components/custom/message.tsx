@@ -4,10 +4,7 @@ import { Attachment, ToolInvocation } from "ai";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
-import { BotIcon, UserIcon } from "./icons";
-import { Markdown } from "./markdown";
 import MessageLoading from "./message-loading";
-import { PreviewAttachment } from "./preview-attachment";
 import ToolRecommendations from "../projectHunt/ToolRecommendations";
 
 export const Message = ({

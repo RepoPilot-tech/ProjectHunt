@@ -2,12 +2,10 @@
 
 import { motion, useAnimationControls } from "framer-motion";
 import { ArrowRight, CornerDownRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 
 import { Badge } from "../ui/badge";
-import Cardd from "../ui/cardd";
 import ImageFetch from "../ui/ImageFetch";
 
 interface Card {
