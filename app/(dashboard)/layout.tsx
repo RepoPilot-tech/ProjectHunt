@@ -26,7 +26,7 @@ const Layout = async ({ children }: {children: React.ReactNode}) => {
       <DataProvider>
               <SidebarLeft user={session?.user} />
                   <div className='w-full relative'>
-                    <NavBarDemo />
+                    {/* <NavBarDemo /> */}
                       {children}
                   </div>
               <SidebarRight user={session?.user} />
