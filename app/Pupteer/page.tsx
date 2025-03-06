@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 
 const Page = () => {
@@ -8,7 +10,7 @@ const Page = () => {
   const [previewImage, setPreviewImage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (!url) return alert('Please enter a URL');
 

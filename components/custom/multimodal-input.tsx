@@ -1,23 +1,16 @@
 "use client";
 
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
+import { ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight } from "lucide-react";
 import React, {
   useRef,
   useEffect,
   useState,
   useCallback,
-  Dispatch,
-  SetStateAction,
-  ChangeEvent,
 } from "react";
 import { toast } from "sonner";
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import useWindowSize from "./use-window-size";
-// import { Button } from "../ui/button";
-import Button from "../ui/moving-border";
 import { Textarea } from "../ui/textarea";
 
 

@@ -33,7 +33,10 @@ export async function DELETE(req: Request) {
     const userId = session.user.id;
 
     console.log("reached here tpoo", websiteLink);
-    await deleteProject({websiteLink: websiteLink, userId: session.user.id});
+    if (!session.user.id) {
+      return new Response("User ID is required", { status: 400 });
+    }
+    await deleteProject({ websiteLink: websiteLink, userId: session.user.id as string });
 
     return new Response("Project deleted", { status: 200 });
   } catch (error) {

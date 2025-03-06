@@ -1,10 +1,7 @@
+/* eslint-disable tailwindcss/enforces-shorthand */
 import {
-  BadgeCheck,
-  Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
-  Sparkles,
 } from "lucide-react"
 
 import { signOut } from "@/app/(auth)/auth"
@@ -16,7 +13,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -37,6 +33,7 @@ export function NavUser({
   user,
 }: {
   user: {
+    avatar: string | undefined
     name?: string
     email: string
   }

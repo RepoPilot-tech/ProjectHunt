@@ -3,10 +3,8 @@
 import {
   ArrowUpRight,
   Link2,
-  LucideMessageCircleDashed,
   MoreHorizontal,
   SparklesIcon,
-  StarOff,
   Trash2,
 } from "lucide-react";
 import Link from 'next/link';
@@ -46,7 +44,12 @@ import {
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button"
 
-export function NavHistory({user}) {
+interface User {
+  id: string;
+  name: string;
+}
+
+export function NavHistory({ user }: { user: User }) {
   const { isMobile } = useSidebar()
   const {id} = useParams();
   const pathname = usePathname();

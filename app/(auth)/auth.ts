@@ -22,14 +22,24 @@ export const {
     Credentials({
       credentials: {},
       async authorize({ email, password }: any) {
-        let users = await getUser(email);
-        
-        if(!users){
+        let response = await getUser(email);
+      
+        if (!response || (response instanceof Response && !response.ok)) {
           return null;
         }
-        let passwordsMatch = await compare(password, users.password!);
+      
+        // Ensure response is properly converted to JSON if needed
+        let users = response instanceof Response ? await response.json() : response;
+      
+        if (!users.password) {
+          throw new Error("User data is missing a password field");
+        }
+      
+        let passwordsMatch = await compare(password, users.password);
         if (passwordsMatch) return users as any;
-      },
+      
+        return null;
+      }
     }),
   ],
   callbacks: {

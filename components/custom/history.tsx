@@ -1,5 +1,6 @@
 "use client";
 
+import { Chat } from "@prisma/client";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import cx from "classnames";
 import Link from "next/link";
@@ -9,7 +10,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 
-import { Chat } from "@/db/schema";
 import { fetcher, getTitleFromChat } from "@/lib/utils";
 
 import {
@@ -43,6 +43,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "../ui/sheet";
+
 
 export const History = ({ user }: { user: User | undefined }) => {
   const { id } = useParams();
@@ -163,7 +164,7 @@ export const History = ({ user }: { user: User | undefined }) => {
                 </div>
               ) : null}
 
-              {history?.length > 0 ?
+              {history && history.length > 0 ?
                 history.map((chat) => (
                   <div
                     key={chat.id}

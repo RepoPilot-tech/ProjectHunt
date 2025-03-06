@@ -35,7 +35,7 @@ import { Input } from "./ui/input"
 
 export function SidebarLeft({
   user
-}: {user: User | undefined} ) {
+}: {user: User & { id: string }} ) {
   return (
     <Sidebar className="border-r-2 rounded-r-3xl overflow-hidden">
       <SidebarHeader>
@@ -50,7 +50,7 @@ export function SidebarLeft({
     </div>
       </SidebarHeader>
       <SidebarContent>
-        <NavHistory user={user} />
+        {user && user.name ? <NavHistory user={{ ...user, name: user.name || '' }} /> : null}
       </SidebarContent>
       <SidebarFooter>
       {/* <NavUser user={user} /> */}

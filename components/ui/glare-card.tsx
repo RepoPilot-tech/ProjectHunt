@@ -3,7 +3,14 @@ import { cn } from "@/lib/utils";
 import { useRef, useState } from "react";
 import {motion} from 'framer-motion'
 
-export const GlareCard = ({name, icon, num, onClick}) => {
+interface GlareCardProps {
+  name: string;
+  icon: React.ReactNode;
+  num: number;
+  onClick: () => void;
+}
+
+export const GlareCard = ({ name, icon, num, onClick }: GlareCardProps) => {
   const [boxColor] = useState(() => {
     const colors = [
       "cyan",

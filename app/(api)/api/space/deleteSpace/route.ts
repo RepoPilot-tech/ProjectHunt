@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 import { auth } from "@/app/(auth)/auth";
 import { deleteSpace } from "@/queries/queries";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
     console.log("i have reached here to delete you");
 
     try {

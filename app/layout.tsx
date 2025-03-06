@@ -1,12 +1,11 @@
 import { Metadata } from "next";
+import { Cabin_Sketch , Roboto } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/custom/theme-provider";
-import { SidebarLeft } from "@/components/sidebar-left";
-import { SidebarRight } from "@/components/sidebar-right";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DataProvider } from "@/provider/spaceContext";
-import { Cabin_Sketch , Roboto } from "next/font/google";
+
 
 import "./globals.css";
 import { auth } from "./(auth)/auth";

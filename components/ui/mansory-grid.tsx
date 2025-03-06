@@ -4,9 +4,15 @@ import { ArrowRight, CornerDownRightIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-const imageCache = {};
+const imageCache: { [key: string]: string } = {};
 
-const Mansorygrid = ({ name, website, builder }) => {
+interface MansorygridProps {
+  name: string;
+  website: string;
+  builder: string;
+}
+
+const Mansorygrid = ({ name, website, builder }: MansorygridProps) => {
   const [loading, setLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 

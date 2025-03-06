@@ -24,6 +24,7 @@ interface Project {
 
 interface ManageSpacesPopoverProps {
   onClose: () => void
+  spacesData: any[];
 }
 
 export default function ManageSpacesPopover({ onClose, spacesData }: ManageSpacesPopoverProps) {
@@ -31,6 +32,7 @@ export default function ManageSpacesPopover({ onClose, spacesData }: ManageSpace
   // console.log("manage spaces component", spacesData);
 
   const [editingSpace, setEditingSpace] = React.useState<Space | null>(null)
+  const projects: Project[] = [] 
 
   const handleEdit = (space: Space) => {
     setEditingSpace(space)

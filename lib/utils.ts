@@ -1,3 +1,4 @@
+import { JsonValue } from "@prisma/client/runtime/library";
 import {
   CoreMessage,
   CoreToolMessage,
@@ -140,7 +141,7 @@ export function convertToUIMessages(
   }, []);
 }
 
-export function getTitleFromChat(chat) {
+export function getTitleFromChat(chat: { id: string; messages: JsonValue | null; userId: string; createdAt: Date; }) {
   const messages = convertToUIMessages(chat.messages as Array<CoreMessage>);
   const firstMessage = messages[0];
 

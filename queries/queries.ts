@@ -301,7 +301,7 @@ export async function getAllSpaces({userId}:any){
     }
 }
 
-export async function getAllSpaceProjects({userId, id}){
+export async function getAllSpaceProjects({userId, id}: {userId: string, id: string}){
     try {
       const res = await prisma.spaces.findUnique({
         where: {
@@ -326,7 +326,7 @@ export async function getAllSpaceProjects({userId, id}){
     }
 }
 
-export async function deleteSpace({ spaceId, userId }) {
+export async function deleteSpace({ spaceId, userId }: { spaceId: string, userId: string }) {
     try {
         console.log("Attempting to delete space...");
 
@@ -343,7 +343,7 @@ export async function deleteSpace({ spaceId, userId }) {
         console.error("Error deleting the space:", error);
 
         // Handle case where the space doesn't exist
-        if (error.code === "P2025") {
+        if ((error as any).code === "P2025") {
             return { error: "Space not found or already deleted." };
         }
 

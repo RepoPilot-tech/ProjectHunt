@@ -3,7 +3,6 @@ import { getAllSpaceProjects } from "@/queries/queries";
 
 export async function GET(request: Request) {
   try {
-    // console.log("yha phat bosdk");
 
     // Authenticate user
     const session = await auth();
@@ -21,7 +20,7 @@ export async function GET(request: Request) {
       return new Response("User ID not found", { status: 400 });
     }
 
-    const res = await getAllSpaceProjects({userId, id});
+    const res = await getAllSpaceProjects({userId, id: id ?? ''});
     // console.log("wassup bitch", res);
 
     return new Response(JSON.stringify(res), {

@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: any }) {
   const { id } = params;
   const chatFromDb = await getChatById({ id });
 
-  if (!chatFromDb) {
+  if (!chatFromDb || chatFromDb instanceof Response) {
     notFound();
   }
 

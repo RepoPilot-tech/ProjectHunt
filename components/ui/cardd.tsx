@@ -43,7 +43,7 @@ const Cardd = ({name, creatorName, websiteLink, description}: Card) => {
     try {
       async function fetchData() {
         const res = await axios.get("/api/space/fetchSpaces")
-        setSpacesData(res.data.map(({id, name}) => ({id, name})));
+        setSpacesData(res.data.map(({id, name}: any) => ({id, name})));
       }
       fetchData();
     } catch (error) {

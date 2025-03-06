@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-unnecessary-arbitrary-value */
 "use client"
 import axios from "axios"
 import { Check, ChevronRight } from "lucide-react"
@@ -26,15 +27,16 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar"
+import { fetchData } from "@/lib/spaces"
 import { DataContext } from "@/provider/spaceContext"
 
 import SpacesDialog from "./custom/spacesDialog"
 import { GlareCard } from "./ui/glare-card"
-import { fetchData } from "@/lib/spaces"
+
 
 
 export function Spaces() {
-  const [spacesData, setSpacesData] = React.useState([]);
+  const [spacesData, setSpacesData] = React.useState<{ id: string; name: string; icon: string }[]>([]);
   const [popOver, setPopOver] = React.useState(true);
   const [openSpace, setOpenSpace] = React.useState(null);
     // eslint-disable-next-line import/no-named-as-default-member
@@ -56,7 +58,7 @@ export function Spaces() {
       call();
     }, [data]);
 
-    function showpopOver(spaceId) {
+    function showpopOver(spaceId: any) {
       setOpenSpace(prev => (prev === spaceId ? null : spaceId));
     }
 

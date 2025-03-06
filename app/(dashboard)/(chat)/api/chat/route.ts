@@ -112,9 +112,16 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const chat = await getChatById({ id });
+    const chatResponse = await getChatById({ id });
 
-    if (chat?.userId !== session.user.id) {
+    // Convert Response to JSON if necessary
+    const chat = chatResponse instanceof Response ? await chatResponse.json() : chatResponse;
+
+    if (!chat || !("userId" in chat)) {
+      return new Response("Chat not found", { status: 404 });
+    }
+
+    if (chat.userId !== session.user.id) {
       return new Response("Unauthorized", { status: 401 });
     }
 
@@ -127,3 +134,4 @@ export async function DELETE(request: Request) {
     });
   }
 }
+

@@ -8,10 +8,17 @@ import Loader from "../projectHunt/PopOverLoader";
 import Mansorygrid from "../ui/mansory-grid";
 
 // Global cache object (Persists even when component unmounts)
-const spaceCache = {};
+const spaceCache: { [key: string]: any } = {};
 
-const SpacesDialog = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
-  const [spaceData, setSpacesData] = useState([]);
+interface SpacesDialogProps {
+  spaceName: string;
+  spaceIdd: string;
+  setPopOver: any;
+  popOver: any;
+}
+
+const SpacesDialog: React.FC<SpacesDialogProps> = ({ spaceName, spaceIdd, setPopOver, popOver }) => {
+  const [spaceData, setSpacesData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   console.log("Space id is this:", spaceIdd);
