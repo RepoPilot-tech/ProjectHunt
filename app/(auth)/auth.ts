@@ -2,7 +2,8 @@ import { compare } from "bcrypt-ts";
 import NextAuth, { User, Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-import { getUser } from "@/db/queries";
+
+import { getUser } from "@/queries/queries";
 
 import { authConfig } from "./auth.config";
 
@@ -21,11 +22,23 @@ export const {
     Credentials({
       credentials: {},
       async authorize({ email, password }: any) {
-        let users = await getUser(email);
-        if (users.length === 0) return null;
-        let passwordsMatch = await compare(password, users[0].password!);
-        if (passwordsMatch) return users[0] as any;
-      },
+        let response = await getUser(email);
+      
+        if (!response || (response instanceof Response && !response.ok)) {
+          return null;
+        }
+    
+        let users = response instanceof Response ? await response.json() : response;
+      
+        if (!users.password) {
+          throw new Error("User data is missing a password field");
+        }
+      
+        let passwordsMatch = await compare(password, users.password);
+        if (passwordsMatch) return users as any;
+      
+        return null;
+      }
     }),
   ],
   callbacks: {

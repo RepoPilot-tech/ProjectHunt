@@ -22,7 +22,7 @@ export function Chat({
       id,
       body: { id },
       initialMessages,
-      maxSteps: 10,
+      maxSteps: 15,
       onFinish: () => {
         window.history.replaceState({}, "", `/chat/${id}`);
       },
@@ -31,15 +31,13 @@ export function Chat({
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
 
-  const [attachments, setAttachments] = useState<Array<Attachment>>([]);
-
   return (
-    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh bg-background">
-      <div className="flex flex-col justify-between items-center gap-4">
+    <div className="flex flex-row justify-center pb-4 md:pb-8 h-dvh border-2 rounded-3xl">
+      <div className="flex flex-col justify-between w-full items-center gap-4">
         <div
-          ref={messagesContainerRef}
-          className="flex flex-col gap-4 h-full w-dvw items-center overflow-y-scroll"
+          className={`flex flex-col gap-4 h-full items-center ${messages.length === 0 ? "max-w-[60vw]" : "w-[43vw]"} overflow-hidden overflow-y-scroll`}
         >
+          
           {messages.length === 0 && <Overview />}
 
           {messages.map((message) => (
@@ -48,26 +46,18 @@ export function Chat({
               chatId={id}
               role={message.role}
               content={message.content}
-              attachments={message.experimental_attachments}
               toolInvocations={message.toolInvocations}
             />
           ))}
-
-          <div
-            ref={messagesEndRef}
-            className="shrink-0 min-w-[24px] min-h-[24px]"
-          />
         </div>
 
-        <form className="flex flex-row gap-2 relative items-end w-full md:max-w-[500px] max-w-[calc(100dvw-32px) px-4 md:px-0">
+        <form className="flex flex-row gap-2 relative items-end px-4 md:px-0">
           <MultimodalInput
             input={input}
             setInput={setInput}
             handleSubmit={handleSubmit}
             isLoading={isLoading}
             stop={stop}
-            attachments={attachments}
-            setAttachments={setAttachments}
             messages={messages}
             append={append}
           />

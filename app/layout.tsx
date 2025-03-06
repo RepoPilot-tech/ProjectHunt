@@ -1,34 +1,59 @@
 import { Metadata } from "next";
+import { Cabin_Sketch , Roboto } from "next/font/google";
 import { Toaster } from "sonner";
 
-import { Navbar } from "@/components/custom/navbar";
 import { ThemeProvider } from "@/components/custom/theme-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { DataProvider } from "@/provider/spaceContext";
+
 
 import "./globals.css";
+import { auth } from "./(auth)/auth";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://gemini.vercel.ai"),
-  title: "Next.js Gemini Chatbot",
-  description: "Next.js chatbot template using the AI SDK and Gemini.",
+  title: "Project Hunt",
+  description: "ProjectHunt Place to find all your projects.",
 };
+
+const CabinSketch = Cabin_Sketch({
+  subsets: ["latin"],
+  variable: "--font-cabin",
+  display: "swap",
+  weight: ["400", "700"]
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
 
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+  let session = await auth();
+
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className={`${CabinSketch.variable} ${roboto.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <SidebarProvider>
+            <DataProvider>
+              <main className="flex gap-2 w-screen">
+                {/* <SidebarLeft user={session?.user} /> */}
+                <div className="w-full">{children}</div>
+                {/* <SidebarRight user={session?.user} /> */}
+              </main>
+            </DataProvider>
+          </SidebarProvider>
           <Toaster position="top-center" />
-          <Navbar />
-          {children}
         </ThemeProvider>
       </body>
     </html>

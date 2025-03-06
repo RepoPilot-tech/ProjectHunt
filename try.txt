@@ -1,0 +1,82 @@
+--> V1
+/ screenshot view use diffrent lib - Done
+/ prisma to drizzle - Done
+/ make changes in sidebar and searchbar work -Done
+/ loading - Done [almost]
+/ chat ui manage - Done
+/ compatible with phones - [later]
+/ input box manage - Done [try 21st dev input box]
+/ improve prompt
+
+--> get dashboard to main page / from /dashboard - [Done]
+
+--> manage spaces ui and sidebar width - Done
+
+--> make sure all functionalities work fine
+
+--> Landing page
+
+--> login with google and github
+
+--> project save functionality and custom save projects page
+
+--> Spaces are being saved and updated successfully - Done
+
+--> show only saved spaces in project save button and save the project in those spaces and by default save the projects in ALl if no space is being selected - DONE
+
+////////////////////////////////
+
+--> when click on spaces show the projects saved in spaces [ Main work ] [ Done ]
+
+--> Spaces UI Better - inside space popover UI better [set all loading states and refresh button in popover]
+
+--> when scrape preview fails show bad status instead of bad log in console log
+
+--> Tab for spaces, show spaces when click on spaces manage Spaces 
+
+--> Logout and Login Page re design
+
+--> Fonts
+
+--> Always highlight All Button in save spaces checkbox 
+
+--> Add Loading Animation in both spaces section and checkbox spaces loading section
+
+
+//
+// // import { useRouter } from "next/navigation";
+// import React, { ReactNode } from "react";
+
+// import { SidebarLeft } from "@/components/sidebar-left";
+// import { SidebarRight } from "@/components/sidebar-right";
+// import { SidebarProvider } from "@/components/ui/sidebar";
+// import { DataProvider } from "@/provider/spaceContext";
+
+// import { auth } from "../(auth)/auth";
+
+// type LayoutProps = {
+//   children: ReactNode;
+// };
+
+// const Layout = async ({ children }: {children: React.ReactNode}) => {
+//   // const router = useRouter();
+//   let session = await auth()
+//   if(!session){
+//     // Router.push("/home");
+//   }
+//   return (
+//     <SidebarProvider>
+//     <main className='flex gap-2 w-screen'>
+//       <DataProvider>
+//               <SidebarLeft user={session?.user} />
+//                   <div className='w-full'>
+//                       {children}
+//                   </div>
+//               <SidebarRight user={session?.user} />
+//             </DataProvider>
+//       </main>
+//       </SidebarProvider>
+//   );
+// };
+
+// export default Layout;

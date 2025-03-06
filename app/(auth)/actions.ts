@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 
-import { createUser, getUser } from "@/db/queries";
+import { createUser, getUser } from "@/queries/queries";
 
 import { signIn } from "./auth";
 
@@ -61,9 +61,10 @@ export const register = async (
       password: formData.get("password"),
     });
 
-    let [user] = await getUser(validatedData.email);
+    let user = await getUser(validatedData.email);
 
     if (user) {
+      // console.log("user from action", user);
       return { status: "user_exists" } as RegisterActionState;
     } else {
       await createUser(validatedData.email, validatedData.password);

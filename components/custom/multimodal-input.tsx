@@ -1,33 +1,35 @@
 "use client";
 
-import { Attachment, ChatRequestOptions, CreateMessage, Message } from "ai";
+import { ChatRequestOptions, CreateMessage, Message } from "ai";
 import { motion } from "framer-motion";
 import React, {
   useRef,
   useEffect,
   useState,
   useCallback,
-  Dispatch,
-  SetStateAction,
-  ChangeEvent,
 } from "react";
 import { toast } from "sonner";
 
-import { ArrowUpIcon, PaperclipIcon, StopIcon } from "./icons";
 import useWindowSize from "./use-window-size";
-import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+
 
 const suggestedActions = [
   {
-    title: "Pre-Build ReactJs Component",
-    label: "from San Francisco to London",
-    action: "Help me book a flight from San Francisco to London",
+    title: "Libraries for HTML5 Canvas",
+    action: "Libraries for HTML5 Canvas to help me draw",
   },
   {
-    title: "Viral Fun Tols",
-    label: "of flight BA142 flying tmrw?",
-    action: "What is the status of flight BA142 flying tmrw?",
+    title: "Pre-Build ReactJs Component",
+    action: "Pre-Build React Js Components whose code can be copy pasted",
+  },
+  {
+    title: "Viral Fun Tools",
+    action: "Viral Fun Tools on twitter right now like git wrapped",
+  },
+  {
+    title: "Gradient Genrator",
+    action: "Gradient generator like gradii.fun",
   },
 ];
 
@@ -36,8 +38,6 @@ interface multimodalChatBot {
   setInput: (value: string) => void,
   isLoading: boolean,
   stop: () => void,
-  attachments: Array<Attachment>,
-  setAttachments: Dispatch<SetStateAction<Array<Attachment>>>,
   messages: Array<Message>,
   append: (
     message: Message | CreateMessage,
@@ -80,8 +80,6 @@ export function MultimodalInput({
     setInput(event.target.value);
     adjustHeight();
   };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadQueue, setUploadQueue] = useState<Array<string>>([]);
 
   const submitForm = useCallback(() => {
@@ -96,7 +94,7 @@ export function MultimodalInput({
     <div className="relative w-full flex flex-col gap-4">
       {messages.length === 0 &&
         uploadQueue.length === 0 && (
-          <div className="grid sm:grid-cols-2 gap-4 w-full md:px-0 mx-auto md:max-w-[500px]">
+          <div className="sm:grid sm:grid-cols-2 flex gap-4 overflow-x-auto overflow-y-hidden w-full md:px-0 mx-auto md:max-w-[500px]">
             {suggestedActions.map((suggestedAction, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -116,22 +114,20 @@ export function MultimodalInput({
                   className="border-none bg-muted/50 w-full text-left border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-300 rounded-lg p-3 text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex flex-col"
                 >
                   <span className="font-medium">{suggestedAction.title}</span>
-                  <span className="text-zinc-500 dark:text-zinc-400">
-                    {suggestedAction.label}
-                  </span>
                 </button>
               </motion.div>
             ))}
           </div>
         )}
 
+        <div className="relative w-full flex items-center justify-center">
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Search for a Project..."
         value={input}
         onChange={handleInput}
-        className="min-h-[24px] overflow-hidden resize-none rounded-lg text-base bg-muted border-none"
-        rows={3}
+        className="max-h-[15vh] overflow-hidden resize-none outline-none active:outline-none relative focus:border-none! focus:outline-none! rounded-2xl text-base bg-muted border-none"
+        rows={1}
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
@@ -145,28 +141,29 @@ export function MultimodalInput({
         }}
       />
 
-      {isLoading ? (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
+      {/* {isLoading ? (
+        <button
+          className="p-2 hover:bg-gray-200 duration-200 border flex items-center justify-center absolute top-[1.35rem] shadow-lg bg-white opacity-100 text-black right-2 rounded-full"
           onClick={(event) => {
             event.preventDefault();
             stop();
           }}
         >
           <StopIcon size={14} />
-        </Button>
+        </button>
       ) : (
-        <Button
-          className="rounded-full p-1.5 h-fit absolute bottom-2 right-2 m-0.5 text-white"
+        <button
           onClick={(event) => {
             event.preventDefault();
             submitForm();
           }}
           disabled={input.length === 0 || uploadQueue.length > 0}
+          className="p-2 hover:bg-gray-200 duration-200 border flex items-center justify-center absolute top-[1.35rem] shadow-lg bg-white opacity-100 text-black right-2 rounded-full"
         >
-          <ArrowUpIcon size={14} />
-        </Button>
-      )}
+          <ChevronRight size={20} />
+        </button>
+      )} */}
+    </div>
     </div>
   );
 }

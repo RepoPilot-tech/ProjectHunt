@@ -1,49 +1,82 @@
-import { motion } from "framer-motion";
-import Link from "next/link";
+"use client"
+import axios from 'axios';
+import { Suspense, useEffect, useState } from 'react';
 
-import { LogoGoogle, MessageIcon, VercelIcon } from "./icons";
+import { InfiniteCarousel } from "../projectHunt/InfiniteCarousel";
+import { CardSkeleton } from "../ui/CardSkeleton";
+
+interface Card {
+  id: Number,
+  title: String,
+  description: String
+}
 
 export const Overview = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
+
+    const checkCache = () => {
+      const cachedData = localStorage.getItem("cachedProjects");
+      if (cachedData) {
+        const { data, timestamp } = JSON.parse(cachedData);
+        if (Date.now() - timestamp < twoDaysInMilliseconds) {
+          setProjects(data);
+          return true;
+        }
+      }
+      return false; 
+    };
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.post("/api/randomProducts");
+        const rawOutput = response.data.output.trim(); 
+
+        // Extract JSON part using regex
+        const jsonMatch = rawOutput.match(/```json\s*([\s\S]*?)\s*```/);
+        const cleanOutput = jsonMatch ? jsonMatch[1] : rawOutput;
+        const parsedProjects = JSON.parse(cleanOutput);
+
+        setProjects(parsedProjects);
+
+        // Cache the data in localStorage
+        const cache = {
+          data: parsedProjects,
+          timestamp: Date.now(),
+        };
+        localStorage.setItem("cachedProjects", JSON.stringify(cache));
+      } catch (error) {
+        console.error("Error fetching or parsing data:", error);
+      }
+    };
+
+    if (!checkCache()) {
+      fetchData();
+    }
+  }, []);
+
   return (
-    <motion.div
-      key="overview"
-      className="max-w-[500px] mt-20 mx-4 md:mx-0"
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ delay: 0.5 }}
-    >
-      <div className="border-none bg-muted/50 rounded-2xl p-6 flex flex-col gap-4 text-zinc-500 text-sm dark:text-zinc-400 dark:border-zinc-700">
-        <p className="flex flex-row justify-center gap-4 items-center text-zinc-900 dark:text-zinc-50">
-          <VercelIcon />
-          <span>+</span>
-          <MessageIcon />
-        </p>
-        <p>
-          This is an open source Chatbot template powered by the Google Gemini
-          model built with Next.js and the AI SDK by Vercel. It uses the{" "}
-          <code className="rounded-sm bg-muted-foreground/15 px-1.5 py-0.5">
-            streamText
-          </code>{" "}
-          function in the server and the{" "}
-          <code className="rounded-sm bg-muted-foreground/15 px-1.5 py-0.5">
-            useChat
-          </code>{" "}
-          hook on the client to create a seamless chat experience.
-        </p>
-        <p>
-          {" "}
-          You can learn more about the AI SDK by visiting the{" "}
-          <Link
-            className="text-blue-500 dark:text-blue-400"
-            href="https://sdk.vercel.ai/docs"
-            target="_blank"
-          >
-            Docs
-          </Link>
-          .
-        </p>
-      </div>
-    </motion.div>
+    <Suspense fallback={<SkeletonCarousel />}>
+      <InfiniteCarousel cards={projects} />
+    </Suspense>  
   );
 };
+
+function SkeletonCarousel() {
+  return (
+    <div className="w-full flex flex-col gap-4">
+      <div className="flex gap-4">
+        {[...Array(5)].map((_, i) => (
+          <CardSkeleton key={`skeleton-1-${i}`} />
+        ))}
+      </div>
+      <div className="flex gap-4">
+        {[...Array(5)].map((_, i) => (
+          <CardSkeleton key={`skeleton-2-${i}`} />
+        ))}
+      </div>
+    </div>
+  );
+}

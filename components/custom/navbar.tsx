@@ -1,84 +1,87 @@
-import Image from "next/image";
-import Link from "next/link";
+/* eslint-disable tailwindcss/enforces-shorthand */
+"use client"
 
-import { auth, signOut } from "@/app/(auth)/auth";
+import { motion } from "framer-motion"
+import { LucideIcon } from "lucide-react"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
 
-import { History } from "./history";
-import { SlashIcon } from "./icons";
-import { ThemeToggle } from "./theme-toggle";
-import { Button } from "../ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { cn } from "@/lib/utils"
 
-export const Navbar = async () => {
-  let session = await auth();
+interface NavItem {
+  name: string
+  url: string
+  icon: LucideIcon
+}
+
+interface NavBarProps {
+  items: NavItem[]
+  className?: string
+}
+
+export function NavBar({ items, className }: NavBarProps) {
+  const [activeTab, setActiveTab] = useState(items[0].name)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   return (
-    <>
-      <div className="bg-background absolute top-0 left-0 w-dvw py-2 px-3 justify-between flex flex-row items-center z-30">
-        <div className="flex flex-row gap-3 items-center">
-          <History user={session?.user} />
-          <div className="flex flex-row gap-2 items-center">
-            <Image
-              src="/images/gemini-logo.png"
-              height={20}
-              width={20}
-              alt="gemini logo"
-            />
-            <div className="text-zinc-500">
-              <SlashIcon size={16} />
-            </div>
-            <div className="text-sm dark:text-zinc-300 truncate w-28 md:w-fit">
-              Next.js Gemini Chatbot
-            </div>
-          </div>
-        </div>
+    <div
+      className={cn(
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 mb-6 sm:pt-6",
+        className,
+      )}
+    >
+      <div className="flex items-center gap-3 bg-background/5 border border-border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg">
+        {items.map((item) => {
+          const Icon = item.icon
+          const isActive = activeTab === item.name
 
-        {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                className="py-1.5 px-2 h-fit font-normal"
-                variant="secondary"
-              >
-                {session.user?.email}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <ThemeToggle />
-              </DropdownMenuItem>
-              <DropdownMenuItem className="p-1 z-50">
-                <form
-                  className="w-full"
-                  action={async () => {
-                    "use server";
-
-                    await signOut({
-                      redirectTo: "/",
-                    });
+          return (
+            <Link
+              key={item.name}
+              href={item.url}
+              onClick={() => setActiveTab(item.name)}
+              className={cn(
+                "relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors",
+                "text-foreground/80 hover:text-primary",
+                isActive && "bg-muted text-primary",
+              )}
+            >
+              <span className="hidden md:inline">{item.name}</span>
+              <span className="md:hidden">
+                <Icon size={18} strokeWidth={2.5} />
+              </span>
+              {isActive && (
+                <motion.div
+                  layoutId="lamp"
+                  className="absolute inset-0 w-full bg-primary/5 rounded-full -z-10"
+                  initial={false}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
                   }}
                 >
-                  <button
-                    type="submit"
-                    className="w-full text-left px-1 py-0.5 text-red-500"
-                  >
-                    Sign out
-                  </button>
-                </form>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button className="py-1.5 px-2 h-fit font-normal text-white" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-        )}
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-primary rounded-t-full">
+                    <div className="absolute w-12 h-6 bg-primary/20 rounded-full blur-md -top-2 -left-2" />
+                    <div className="absolute w-8 h-6 bg-primary/20 rounded-full blur-md -top-1" />
+                    <div className="absolute w-4 h-4 bg-primary/20 rounded-full blur-sm top-0 left-2" />
+                  </div>
+                </motion.div>
+              )}
+            </Link>
+          )
+        })}
       </div>
-    </>
-  );
-};
+    </div>
+  )
+}
