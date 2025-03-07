@@ -14,7 +14,7 @@ export default function AddProjectPopover() {
       <PopoverContent className="w-80">
         <div className="text-center p-4">
           <h3 className="font-semibold text-lg mb-2">UPCOMING Feature</h3>
-          <p>The ability to add projects will be available soon!</p>
+          <p>The ability to add projects will be available soon!!</p>
         </div>
       </PopoverContent>
     </Popover>
