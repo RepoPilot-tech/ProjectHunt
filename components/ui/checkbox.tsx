@@ -14,6 +14,7 @@ interface CheckboxProps {
 const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick, spaces, loading, setSelectedSpaces, selectedSpaces }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  console.log("spaces here", spaces);
   const toggleSpace = (space: string) => {
     setSelectedSpaces((selectedSpaces: string[]) =>
       selectedSpaces.includes(space) ? selectedSpaces.filter(s => s !== space) : [...selectedSpaces, space]
@@ -38,7 +39,8 @@ const Checkbox: React.FC<CheckboxProps> = ({ isChecked, onClick, spaces, loading
                   : 'bg-gray-200 text-gray-700'
               } transition-colors duration-200`}
             >
-              {space}
+              {/* @ts-ignore */}
+              {space.name}
             </button>
           ))}
         </div>

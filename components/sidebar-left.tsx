@@ -50,7 +50,8 @@ export function SidebarLeft({
     </div>
       </SidebarHeader>
       <SidebarContent>
-        {user && user.name ? <NavHistory user={{ ...user, name: user.name || '' }} /> : null}
+        {/* @ts-ignore */}
+      <NavHistory user={user} />
       </SidebarContent>
       <SidebarFooter>
       {/* <NavUser user={user} /> */}
