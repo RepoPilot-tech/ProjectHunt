@@ -30,6 +30,6 @@
 
 ## 🤝 Contributing
 
-## We welcome contributions! Feel free to open issues
+<!-- ## We welcome contributions! Feel free to open issues -->
 
 🔥 **Join Project Hunt and discover the best tools & projects today!** 🚀
